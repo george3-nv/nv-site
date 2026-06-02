@@ -13,6 +13,12 @@
     window.addEventListener('resize', setVH);
     window.addEventListener('orientationchange', setVH);
   })();
+  /* Load-in: hide everything but logo+headline until the headline finishes typing */
+  (function(){
+    if(!(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)){
+      document.documentElement.classList.add('preload');
+    }
+  })();
 </script>
 <style>
   :root{
@@ -87,6 +93,19 @@
   .hero-text{ margin-top:auto; }
   .hero-mark{ display:block; height:clamp(48px,5.5vw,76px); width:auto;
     margin:0 0 clamp(22px,3.2vh,40px); }
+
+  /* Load-in: type headline first, then fade the rest in around it */
+  .bar, .hero-text .sub, .hero-rule, .hero-text .positioning, .scrollcue{
+    transition:opacity .85s var(--ease); }
+  html.preload .bar,
+  html.preload .hero-text .sub,
+  html.preload .hero-rule,
+  html.preload .hero-text .positioning,
+  html.preload .scrollcue,
+  html.preload .shared-flyer{ opacity:0; }
+  .cur{ display:inline-block; width:3px; height:.78em; background:currentColor;
+    margin-left:4px; vertical-align:-0.04em; animation:blink 1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
   .hero-text h1{
     font-size:clamp(2rem,5vw,4.6rem); font-weight:500; line-height:.8;
     letter-spacing:-.02em; max-width:70vw;
@@ -136,18 +155,18 @@
   .morphing #slotA, .morphing #slotB{ color:transparent; }
   @media (prefers-reduced-motion:reduce){ .shared-flyer{ display:none; } }
 
-  /* Section 2: WHY (1/3) + HOW/diagram (2/3) */
-  .approach-grid{ display:grid; grid-template-columns:1.5fr 1fr;
-    gap:clamp(26px,4vh,46px) clamp(36px,5vw,80px); align-items:start; }
-  .how-head{ grid-column:1; grid-row:1; }
-  .diagram-cell{ grid-column:1; grid-row:2; }
-  .why-head{ grid-column:2; grid-row:1; }
-  .case-cell{ grid-column:2; grid-row:2; }
+  /* Section 2: full-width HOW headline, then WHY (1/3) + diagram (2/3) */
+  .approach-grid{ display:grid; grid-template-columns:1fr 2fr;
+    gap:clamp(28px,4vh,48px) clamp(36px,5vw,80px); align-items:start; }
+  .how-head{ grid-column:1 / -1; grid-row:1; }
+  .why-head{ grid-column:1; grid-row:2; }
+  .diagram-cell{ grid-column:2; grid-row:2; }
   .approach-grid .label{ margin-bottom:clamp(14px,2vh,22px); }
   .why-text{ font-size:clamp(1.3rem,2.4vw,2rem); font-weight:500; line-height:1.08; letter-spacing:-.02em; }
-  .how-head .section-head{ max-width:none; margin-bottom:0; }
+  .how-head .section-head{ max-width:none; margin-bottom:0;
+    font-size:clamp(1.9rem,4.4vw,3.7rem); }
   @media (max-width:820px){
-    .approach-grid{ grid-template-columns:1fr; gap:clamp(30px,5vh,46px); }
+    .approach-grid{ grid-template-columns:1fr; gap:clamp(28px,5vh,44px); }
     .approach-grid > *{ grid-column:auto; grid-row:auto; }
   }
 
@@ -339,7 +358,8 @@
 
     <div class="hero-text">
       <img class="hero-mark" src="nv-mark.png" alt="Night Ventures" />
-      <h1>Attention is the last non&#8209;commodified asset in the world.</h1>
+      <h1 id="headline">Attention is the most valuable and least monetized asset on the internet.</h1>
+      <script>(function(){var h=document.getElementById('headline');h.dataset.full=h.textContent;if(document.documentElement.classList.contains('preload')){h.style.minHeight=h.offsetHeight+'px';h.textContent='';}})();</script>
       <p class="sub">Night Ventures is a venture studio that builds companies with attention.</p>
       <div class="hero-rule"></div>
       <p class="positioning shared-slot" id="slotA">We combine world-class operators with unprecedented attention to build transformational brands.</p>
@@ -406,19 +426,6 @@
         <div class="cell why-head">
           <div class="label">Why</div>
           <p class="why-text">When the time and resources needed to create new things are condensed down to zero, distribution and attention are the last remaining wedges in business.</p>
-        </div>
-
-        <div class="cell case-cell">
-          <div class="case">
-            <div class="label">Case Study</div>
-            <dl class="case-list">
-              <div class="case-row"><dt>Hypothesis</dt><dd>Women are beginning to search online for &ldquo;drinkable beauty.&rdquo;</dd></div>
-              <div class="case-row"><dt>Talent</dt><dd class="case-people"><span class="cp-name">Kylie Jenner</span><span class="ph ph-face"><img src="kylie.png" alt="Kylie Jenner" style="object-position:50% 24%"></span></dd></div>
-              <div class="case-row"><dt>Operator</dt><dd class="case-people"><span class="cp-name">Jay Hunter</span><span class="ph ph-face"><img src="jay-hunter.jpg" alt="Jay Hunter" style="object-position:50% 30%"></span><span class="ph"><img src="maryruths-logo.jpg" alt="MaryRuth&rsquo;s"></span></dd></div>
-              <div class="case-row"><dt>Financing</dt><dd class="case-fin"><span class="ph ph-zoom"><img src="k5-logo.png" alt="K5 Global"></span><span class="ph ph-card"><img src="house-logo.svg" alt="House Capital"></span></dd></div>
-              <div class="case-row"><dt>Output</dt><dd class="case-fin"><span class="ph ph-card"><img src="k2o.png" alt="k2o"></span></dd></div>
-            </dl>
-          </div>
         </div>
 
       </div>
@@ -500,6 +507,23 @@
   </button>
 
   <script>
+    /* Load-in: type the headline, then reveal the rest of the page */
+    (function(){
+      var h = document.getElementById('headline');
+      if(!h || !document.documentElement.classList.contains('preload')) return;
+      var full = h.dataset.full || '';
+      var caret = document.createElement('span'); caret.className = 'cur';
+      var i = 0;
+      function reveal(){ document.documentElement.classList.remove('preload'); }
+      function tick(){
+        i++;
+        h.textContent = full.slice(0, i);
+        if(i < full.length){ h.appendChild(caret); setTimeout(tick, 22); }
+        else { setTimeout(function(){ h.textContent = full; h.style.minHeight = ''; reveal(); }, 250); }
+      }
+      setTimeout(tick, 220);
+    })();
+
     /* Explore cursor */
     (function(){
       if(!window.matchMedia || !window.matchMedia('(pointer:fine)').matches) return;
