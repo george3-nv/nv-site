@@ -316,8 +316,9 @@
   footer .links{ display:flex; gap:28px; font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; }
   footer .links a{ color:var(--muted); transition:color .3s var(--ease); }
   footer .links a:hover{ color:var(--cream); }
-  @media (max-width:640px){
-    /* compact two-line rows: name + tags share the top line, desc below */
+  @media (max-width:740px){
+    /* Once the longest descriptor would wrap (~720px), flip every row to the
+       compact two-line layout together: name + tags on top, desc below. */
     .co{ flex-flow:row wrap; align-items:center; gap:7px 12px; padding:15px 0; }
     .co:hover{ padding-left:0; }
     .co .name{ flex:1 1 auto; min-width:0; font-size:1.18rem; }
