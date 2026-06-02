@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Night Ventures — 2×2 Quadrant (archived)</title>
+<!--
+  ARCHIVED 2026-06-01. This is the talent-led / CPG 2x2 "quad chart" that was the
+  Companies view. Removed from the live site per Ben's note (the 2x2 risks reading
+  as "not talent-led"); replaced by a tagged company list. Kept here so it can be
+  restored. Self-contained — open directly to view. Hover a node for its tooltip;
+  overlapping chips auto-declutter.
+-->
+<style>
+  :root{ --green:#2A4A3B; --cream:#F8F3F0; --muted:rgba(248,243,240,.52); --line:rgba(248,243,240,.16);
+         --ease:cubic-bezier(.16,.84,.44,1); }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ background:var(--green); color:var(--cream); min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:40px;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  .graph-frame{ border:1px solid var(--line); border-radius:18px;
+    padding:clamp(34px,4vh,52px) clamp(74px,8.5vw,108px); width:fit-content; }
+  .plot{ position:relative; width:min(70vw, 500px, 70vh); aspect-ratio:1/1; }
+  .axis-line{ position:absolute; background:var(--line); }
+  .axis-line.ax-v{ left:50%; top:0; bottom:0; width:1px; transform:translateX(-.5px); }
+  .axis-line.ax-h{ top:50%; left:0; right:0; height:1px; transform:translateY(-.5px); }
+  .axis{ position:absolute; font-size:.62rem; font-weight:700; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+  .ax-top{ top:-24px; left:50%; transform:translateX(-50%); }
+  .ax-bottom{ bottom:-24px; left:50%; transform:translateX(-50%); }
+  .ax-left{ left:-14px; top:50%; transform:translate(-100%,-50%); }
+  .ax-right{ right:-14px; top:50%; transform:translate(100%,-50%); }
+  .node{ position:absolute; transform:translate(-50%,-50%); display:inline-flex; align-items:center; gap:8px;
+    background:rgba(42,74,59,.82); border:1px solid var(--line); color:var(--cream);
+    font:inherit; font-size:clamp(.7rem,1.2vw,.84rem); font-weight:500; letter-spacing:.01em;
+    padding:5px 10px; border-radius:999px; white-space:nowrap; cursor:pointer;
+    transition:border-color .2s var(--ease), background .2s var(--ease); }
+  .node::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--cream); flex:0 0 auto; }
+  .node:hover, .node.active{ border-color:var(--cream); background:var(--green); z-index:20; }
+  .tip{ position:absolute; z-index:40; width:min(240px,72vw); background:var(--cream); color:var(--green);
+    border-radius:10px; padding:14px; box-shadow:0 12px 34px rgba(0,0,0,.28); text-align:left;
+    opacity:0; visibility:hidden; pointer-events:none; transform:translate(-50%,-100%);
+    transition:opacity .18s var(--ease), transform .18s var(--ease), visibility .18s; }
+  .tip.show{ opacity:1; visibility:visible; pointer-events:auto; transform:translate(-50%,calc(-100% - 8px)); }
+  .tip.below{ transform:translate(-50%,0); } .tip.below.show{ transform:translate(-50%,8px); }
+  .tip .tname{ font-size:.95rem; font-weight:600; margin-bottom:4px; }
+  .tip .tdesc{ font-size:.82rem; line-height:1.35; color:rgba(42,74,59,.78); margin-bottom:12px; }
+  .tip .tbtn{ display:inline-flex; align-items:center; gap:7px; font-size:.66rem; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--green);
+    border:1px solid rgba(42,74,59,.28); border-radius:999px; padding:7px 13px; }
+  @media (max-width:560px){ .ax-left{ left:8px; transform:translateY(-50%); }
+    .ax-right{ right:8px; left:auto; transform:translateY(-50%); } .graph-frame{ padding:26px 18px; } }
+</style>
+</head>
+<body>
+  <div class="graph-frame">
+    <div class="plot">
+      <div class="axis-line ax-v"></div>
+      <div class="axis-line ax-h"></div>
+      <span class="axis ax-top">Talent-led</span>
+      <span class="axis ax-bottom">Non-talent-led</span>
+      <span class="axis ax-left">Other</span>
+      <span class="axis ax-right">CPG</span>
+
+      <button class="node" style="left:86%; top:8%"  data-name="Feastables"   data-url="#" data-desc="Better-for-you confection with MrBeast">Feastables</button>
+      <button class="node" style="left:92%; top:20%" data-name="Joyride"      data-url="#" data-desc="Wildly impossible candy with Ryan Trahan">Joyride</button>
+      <button class="node" style="left:78%; top:14%" data-name="k2o"          data-url="#" data-desc="Beauty hydration with Kylie Jenner">k2o</button>
+      <button class="node" style="left:70%; top:34%" data-name="Tone"         data-url="#" data-desc="Fragrance-first men&rsquo;s care with AMP">Tone</button>
+      <button class="node" style="left:50%; top:26%" data-name="Respin Health" data-url="#" data-desc="A menopause care platform with Halle Berry">Respin Health</button>
+      <button class="node" style="left:66%; top:58%" data-name="Blox Snacks"  data-url="#" data-desc="Protein snacking for active kids">Blox Snacks</button>
+      <button class="node" style="left:82%; top:74%" data-name="Monte&rsquo;s" data-url="#" data-desc="A premium clean Italian foods company">Monte&rsquo;s</button>
+      <button class="node" style="left:44%; top:72%" data-name="Rare Candy"   data-url="#" data-desc="A platform for nerdcore collectibles">Rare Candy</button>
+      <button class="node" style="left:30%; top:60%" data-name="JOGO"         data-url="#" data-desc="A studio building Fortnite UEFN games">JOGO</button>
+      <button class="node" style="left:14%; top:66%" data-name="Tesana"       data-url="#" data-desc="A platform for game design and world building">Tesana</button>
+      <button class="node" style="left:34%; top:84%" data-name="Kuzu"         data-url="#" data-desc="An AI holdco to acquire and scale Roblox games">Kuzu</button>
+      <button class="node" style="left:22%; top:78%" data-name="Troveo"       data-url="#" data-desc="Real-world data powering frontier labs">Troveo</button>
+      <button class="node" style="left:10%; top:90%" data-name="Outtake"      data-url="#" data-desc="Agentic brand protection + threat intelligence">Outtake</button>
+
+      <div class="tip" id="tip">
+        <div class="tname"></div><div class="tdesc"></div>
+        <a class="tbtn" href="#" target="_blank" rel="noopener"><span>Visit website</span><span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* declutter overlapping chips */
+    (function(){
+      var plot=document.querySelector('.plot'); if(!plot) return;
+      var nodes=[].slice.call(plot.querySelectorAll('.node'));
+      nodes.forEach(function(n){ n.dataset.bx=parseFloat(n.style.left); n.dataset.by=parseFloat(n.style.top); });
+      function declutter(){
+        var pw=plot.clientWidth, ph=plot.clientHeight; if(!pw) return; var gap=8;
+        var items=nodes.map(function(n){ return {n:n,x:n.dataset.bx/100*pw,y:n.dataset.by/100*ph,w:n.offsetWidth,h:n.offsetHeight}; });
+        function clamp(p){ p.x=Math.max(p.w/2,Math.min(pw-p.w/2,p.x)); p.y=Math.max(p.h/2,Math.min(ph-p.h/2,p.y)); }
+        for(var it=0; it<400; it++){ var moved=false;
+          for(var i=0;i<items.length;i++) for(var j=i+1;j<items.length;j++){ var a=items[i],b=items[j];
+            var dx=b.x-a.x,dy=b.y-a.y; if(dx===0&&dy===0){dx=Math.random()-.5;dy=Math.random()-.5;}
+            var ox=(a.w+b.w)/2+gap-Math.abs(dx), oy=(a.h+b.h)/2+gap-Math.abs(dy);
+            if(ox>0&&oy>0){ if(ox<oy){var s=(dx<0?-1:1)*ox/2;a.x-=s;b.x+=s;} else {var s2=(dy<0?-1:1)*oy/2;a.y-=s2;b.y+=s2;} moved=true; } }
+          items.forEach(clamp); if(!moved) break; }
+        items.forEach(function(p){ p.n.style.left=p.x+'px'; p.n.style.top=p.y+'px'; });
+      }
+      declutter(); window.addEventListener('load',declutter); window.addEventListener('resize',declutter); setTimeout(declutter,200);
+    })();
+    /* tooltip */
+    (function(){
+      var plot=document.querySelector('.plot'); if(!plot) return;
+      var tip=document.getElementById('tip'), tN=tip.querySelector('.tname'), tD=tip.querySelector('.tdesc'), tB=tip.querySelector('.tbtn'); var hideT;
+      function show(n){ clearTimeout(hideT); tN.textContent=n.dataset.name; tD.textContent=n.dataset.desc; tB.href=n.dataset.url||'#';
+        document.querySelectorAll('.node.active').forEach(function(x){x.classList.remove('active');}); n.classList.add('active');
+        var below=n.offsetTop<170; tip.classList.toggle('below',below); var cx=n.offsetLeft+n.offsetWidth/2;
+        tip.style.left=cx+'px'; tip.style.top=(below?n.offsetTop+n.offsetHeight+8:n.offsetTop-8)+'px'; tip.classList.add('show');
+        var pw=plot.clientWidth, tw=tip.offsetWidth; tip.style.left=Math.max(tw/2+4,Math.min(pw-tw/2-4,cx))+'px'; }
+      function hide(){ hideT=setTimeout(function(){ tip.classList.remove('show'); document.querySelectorAll('.node.active').forEach(function(x){x.classList.remove('active');}); },140); }
+      plot.querySelectorAll('.node').forEach(function(n){ n.addEventListener('mouseenter',function(){show(n);}); n.addEventListener('mouseleave',hide); n.addEventListener('click',function(e){e.preventDefault();show(n);}); });
+      tip.addEventListener('mouseenter',function(){clearTimeout(hideT);}); tip.addEventListener('mouseleave',hide);
+      document.addEventListener('click',function(e){ if(!e.target.closest('.node')&&!e.target.closest('.tip')) hide(); });
+    })();
+  </script>
+</body>
+</html>
