@@ -47,10 +47,10 @@
 
   .wrap{ max-width:1120px; margin:0 auto; padding:0 clamp(24px,5vw,64px); }
 
-  /* ---------- Gentle scroll snapping (larger screens only) ---------- */
+  /* ---------- Force-scroll snapping (larger screens only) ---------- */
   @media (min-width:768px) and (min-height:620px){
-    html{ scroll-snap-type:y proximity; }
-    .snap{ scroll-snap-align:start; }
+    html{ scroll-snap-type:y mandatory; }
+    .snap{ scroll-snap-align:start; scroll-snap-stop:always; }
   }
 
   /* ---------- Sticky top menu bar (appears after section 1) ---------- */
@@ -380,11 +380,11 @@
   /* ---------- Explore cursor (fine pointers only) ---------- */
   #cursor{
     position:fixed; top:0; left:0; width:10px; height:10px; border-radius:50%;
-    background:var(--accent); pointer-events:none; z-index:90;
+    background:rgba(221,84,36,.85); pointer-events:none; z-index:90;
     transform:translate(-50%,-50%); transition:width .25s var(--ease),height .25s var(--ease),background .25s var(--ease);
     display:none;
   }
-  #cursor.hover{ width:64px; height:64px; background:var(--accent); }
+  #cursor.hover{ width:64px; height:64px; background:rgba(221,84,36,.42); }
   @media (pointer:fine){ #cursor{ display:block; } body{ cursor:none; } a,.co,.node,.totop,.view-check{ cursor:none; } }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
 </style>
