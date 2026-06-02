@@ -213,10 +213,14 @@
     letter-spacing:-.01em; min-width:clamp(120px,22vw,230px);
   }
   .co .desc{ flex:1 1 auto; font-size:clamp(.9rem,1.5vw,1.08rem); color:var(--muted); line-height:1.35; }
-  .co .tags{ display:flex; gap:7px; flex-wrap:wrap; flex:0 0 auto; justify-content:flex-end; }
+  .co .tags{ display:flex; align-self:center; gap:7px; flex-wrap:wrap; flex:0 0 auto; justify-content:flex-end; }
   .tag{ font-size:.58rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; line-height:1;
     color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:5px 9px; white-space:nowrap; }
   .tag.talent{ color:var(--cream); border-color:rgba(26,23,20,.45); }
+  .co .co-arrow{ flex:0 0 auto; align-self:center; width:18px; margin-left:-8px; font-size:1rem; line-height:1;
+    color:var(--accent); opacity:0; transform:translateX(-4px);
+    transition:opacity .3s var(--ease), transform .3s var(--ease); }
+  .co:hover .co-arrow{ opacity:1; transform:translateX(0); }
 
   .sec-head{ display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
     margin-bottom:clamp(18px,2.4vw,28px); }
@@ -496,19 +500,19 @@
       </div>
 
       <div class="list-view">
-        <div class="co"><div class="name">k2o</div><div class="desc">Beauty hydration with Kylie Jenner</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">Beauty</span><span class="tag">CPG</span></div></div>
-        <div class="co"><div class="name">Feastables</div><div class="desc">Better-for-you confection with MrBeast</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">CPG</span></div></div>
-        <div class="co"><div class="name">Troveo</div><div class="desc">Real-world data powering frontier labs</div><div class="tags"><span class="tag">AI</span><span class="tag">Data</span></div></div>
-        <div class="co"><div class="name">Outtake</div><div class="desc">Agentic brand protection + threat intelligence</div><div class="tags"><span class="tag">AI</span><span class="tag">SaaS</span></div></div>
-        <div class="co"><div class="name">Tone</div><div class="desc">Fragrance-first men&rsquo;s care with AMP</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">CPG</span></div></div>
-        <div class="co"><div class="name">Joyride</div><div class="desc">Wildly impossible candy with Ryan Trahan</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">CPG</span></div></div>
-        <div class="co"><div class="name">Kuzu</div><div class="desc">An AI holdco to acquire and scale Roblox games</div><div class="tags"><span class="tag">AI</span><span class="tag">Gaming</span></div></div>
-        <div class="co"><div class="name">Tesana</div><div class="desc">A platform for game design and world building</div><div class="tags"><span class="tag">Gaming</span><span class="tag">SaaS</span></div></div>
-        <div class="co"><div class="name">JOGO</div><div class="desc">A studio building Fortnite UEFN games</div><div class="tags"><span class="tag">Gaming</span></div></div>
-        <div class="co"><div class="name">Monte&rsquo;s</div><div class="desc">A premium clean Italian foods company</div><div class="tags"><span class="tag">CPG</span><span class="tag">Food</span></div></div>
-        <div class="co"><div class="name">Rare Candy</div><div class="desc">A platform for nerdcore collectibles</div><div class="tags"><span class="tag">SaaS</span><span class="tag">Gaming</span></div></div>
-        <div class="co"><div class="name">Blox Snacks</div><div class="desc">Protein snacking for active kids</div><div class="tags"><span class="tag">CPG</span></div></div>
-        <div class="co"><div class="name">Respin Health</div><div class="desc">A menopause care platform with Halle Berry</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">Health</span></div></div>
+        <a class="co" href="https://drinksprinter.com" target="_blank" rel="noopener"><div class="name">k2o</div><div class="desc">Beauty hydration with Kylie Jenner</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">Beauty</span><span class="tag">CPG</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://feastables.com" target="_blank" rel="noopener"><div class="name">Feastables</div><div class="desc">Better-for-you confection with MrBeast</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">CPG</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://troveo.ai" target="_blank" rel="noopener"><div class="name">Troveo</div><div class="desc">Real-world data powering frontier labs</div><div class="tags"><span class="tag">AI</span><span class="tag">Data</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://outtake.ai" target="_blank" rel="noopener"><div class="name">Outtake</div><div class="desc">Agentic brand protection + threat intelligence</div><div class="tags"><span class="tag">AI</span><span class="tag">SaaS</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://tone.shop" target="_blank" rel="noopener"><div class="name">Tone</div><div class="desc">Fragrance-first men&rsquo;s care with AMP</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">CPG</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://joyridesweets.com" target="_blank" rel="noopener"><div class="name">Joyride</div><div class="desc">Wildly impossible candy with Ryan Trahan</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">CPG</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://kuzugaming.com" target="_blank" rel="noopener"><div class="name">Kuzu</div><div class="desc">An AI holdco to acquire and scale Roblox games</div><div class="tags"><span class="tag">AI</span><span class="tag">Gaming</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://tesana.ai" target="_blank" rel="noopener"><div class="name">Tesana</div><div class="desc">A platform for game design and world building</div><div class="tags"><span class="tag">Gaming</span><span class="tag">SaaS</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://jogogames.com" target="_blank" rel="noopener"><div class="name">JOGO</div><div class="desc">A studio building Fortnite UEFN games</div><div class="tags"><span class="tag">Gaming</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://montessauce.com" target="_blank" rel="noopener"><div class="name">Monte&rsquo;s</div><div class="desc">A premium clean Italian foods company</div><div class="tags"><span class="tag">CPG</span><span class="tag">Food</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://rarecandy.com" target="_blank" rel="noopener"><div class="name">Rare Candy</div><div class="desc">A platform for nerdcore collectibles</div><div class="tags"><span class="tag">SaaS</span><span class="tag">Gaming</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://fruitblox.com" target="_blank" rel="noopener"><div class="name">Blox Snacks</div><div class="desc">Protein snacking for active kids</div><div class="tags"><span class="tag">CPG</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
+        <a class="co" href="https://respin.health" target="_blank" rel="noopener"><div class="name">Respin Health</div><div class="desc">A menopause care platform with Halle Berry</div><div class="tags"><span class="tag talent">Talent-led</span><span class="tag">Health</span></div><span class="co-arrow" aria-hidden="true">&#8599;</span></a>
       </div>
     </div>
   </section>
@@ -549,9 +553,8 @@
           <span class="city">LA &mdash; NY</span>
         </div>
         <div class="links">
-          <!-- TODO: real URLs -->
           <a href="#" data-open-nv1>NV1</a>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/company/nightventures" target="_blank" rel="noopener">LinkedIn</a>
         </div>
       </div>
     </footer>
