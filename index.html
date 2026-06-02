@@ -161,6 +161,9 @@
   .approach-grid{ display:grid; grid-template-columns:1fr 2fr;
     gap:clamp(28px,4vh,48px) clamp(36px,5vw,80px); align-items:start; }
   .how-head{ grid-column:1 / -1; grid-row:1; }
+  .how-head .label{ opacity:0; transition:opacity .5s var(--ease); }
+  .head-locked .how-head .label{ opacity:1; }
+  @media (prefers-reduced-motion:reduce){ .how-head .label{ opacity:1; } }
   .why-head{ grid-column:1; grid-row:2; }
   .diagram-cell{ grid-column:2; grid-row:2; }
   .approach-grid .label{ margin-bottom:clamp(14px,2vh,22px); }
@@ -785,6 +788,7 @@
         var fwA = parseInt(csA.fontWeight) || 300, fwB = parseInt(csB.fontWeight) || 500;
         flyer.style.fontWeight = Math.round(lerp(fwA, fwB, p) / 100) * 100;
         if(!flyer.classList.contains('ready')) flyer.classList.add('ready');
+        document.body.classList.toggle('head-locked', p >= 0.995);
       }
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
       window.addEventListener('scroll', onScroll, { passive:true });
