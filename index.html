@@ -121,7 +121,7 @@
     margin:clamp(20px,3vh,34px) 0 clamp(20px,2.8vh,34px); }
   .hero-text .positioning{
     margin-top:0;
-    font-size:clamp(1.02rem,1.8vw,1.45rem); font-weight:400; line-height:1.15;
+    font-size:clamp(1.02rem,1.8vw,1.45rem); font-weight:300; line-height:1.2;
     max-width:50vw; letter-spacing:-.01em;
   }
   @media (max-width:640px){
@@ -166,7 +166,7 @@
   .approach-grid .label{ margin-bottom:clamp(14px,2vh,22px); }
   .why-text{ font-size:clamp(1.3rem,2.4vw,2rem); font-weight:500; line-height:1.08; letter-spacing:-.02em; }
   .how-head .section-head{ max-width:none; margin-bottom:0;
-    font-size:clamp(1.9rem,4.4vw,3.7rem); }
+    font-size:clamp(1.5rem,3.3vw,2.7rem); line-height:1.04; }
   @media (max-width:820px){
     .approach-grid{ grid-template-columns:1fr; gap:clamp(28px,5vh,44px); }
     .approach-grid > *{ grid-column:auto; grid-row:auto; }
@@ -394,7 +394,7 @@
   <div id="cursor"></div>
 
   <!-- Shared text that morphs from section 1 line into section 2 header -->
-  <div class="shared-flyer" id="flyer" aria-hidden="true">We combine world-class operators with unprecedented attention to build transformational brands.</div>
+  <div class="shared-flyer" id="flyer" aria-hidden="true">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. We build companies with attention.</div>
 
   <!-- Sticky menu bar (shown after section 1) -->
   <nav class="topbar" id="topbar">
@@ -413,9 +413,8 @@
       <img class="hero-mark" src="nv-mark.png" alt="Night Ventures" />
       <h1 id="headline">Attention is the most valuable and least monetized asset on the internet.</h1>
       <script>(function(){var h=document.getElementById('headline');h.dataset.full=h.textContent;if(document.documentElement.classList.contains('preload')){h.style.minHeight=h.offsetHeight+'px';h.textContent='';}})();</script>
-      <p class="sub">Night Ventures is a venture studio that builds companies with attention.</p>
       <div class="hero-rule"></div>
-      <p class="positioning shared-slot" id="slotA">We combine world-class operators with unprecedented attention to build transformational brands.</p>
+      <p class="positioning shared-slot" id="slotA">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. We build companies with attention.</p>
     </div>
 
     <div class="scrollcue"><span>Scroll</span><span class="arr" aria-hidden="true">&darr;</span></div>
@@ -428,7 +427,7 @@
 
         <div class="cell how-head">
           <div class="label">How</div>
-          <h2 class="section-head shared-slot" id="slotB">We combine world-class operators with unprecedented attention to build transformational brands.</h2>
+          <h2 class="section-head shared-slot" id="slotB">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. We build companies with attention.</h2>
         </div>
 
         <div class="cell diagram-cell">
@@ -782,6 +781,8 @@
         flyer.style.width     = lerp(a.width, b.width, p) + 'px';
         flyer.style.fontSize  = lerp(fsA, fsB, p) + 'px';
         flyer.style.lineHeight = lerp(lhA, lhB, p) + 'px';
+        var fwA = parseInt(csA.fontWeight) || 300, fwB = parseInt(csB.fontWeight) || 500;
+        flyer.style.fontWeight = Math.round(lerp(fwA, fwB, p) / 100) * 100;
         if(!flyer.classList.contains('ready')) flyer.classList.add('ready');
       }
       function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }
