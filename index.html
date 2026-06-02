@@ -310,6 +310,51 @@
     .footer-inner{ flex-direction:column; align-items:flex-start; }
   }
 
+  /* ---------- NV1 pop-out (portfolio) ---------- */
+  .modal-backdrop{ position:fixed; inset:0; z-index:85;
+    display:flex; align-items:center; justify-content:center;
+    padding:clamp(20px,4vh,56px) clamp(16px,4vw,40px);
+    background:rgba(12,74,110,.92); -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+    opacity:0; transition:opacity .4s var(--ease); }
+  .modal-backdrop.open{ opacity:1; }
+  .modal-backdrop[hidden]{ display:none; }
+  .modal{ position:relative; width:100%; max-width:680px; max-height:88vh;
+    background:#0E5279; border:1px solid rgba(248,243,240,.18); border-radius:18px;
+    box-shadow:0 30px 90px rgba(0,0,0,.45);
+    display:flex; flex-direction:column; overflow:hidden;
+    opacity:0; transform:translateY(16px) scale(.985);
+    transition:opacity .45s var(--ease), transform .45s var(--ease); }
+  .modal-backdrop.open .modal{ opacity:1; transform:none; }
+  .modal-close{ position:absolute; top:14px; right:16px; z-index:2;
+    width:34px; height:34px; border:1px solid var(--line); border-radius:50%;
+    background:rgba(14,82,121,.6); color:var(--cream); font-size:1.15rem; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:border-color .2s var(--ease), background .2s var(--ease); }
+  .modal-close:hover{ border-color:var(--cream); }
+  .modal-scroll{ overflow-y:auto; padding:clamp(30px,4vw,48px); }
+  .modal-title{ font-size:clamp(1.8rem,4vw,2.8rem); font-weight:500; line-height:.95;
+    letter-spacing:-.02em; margin-bottom:clamp(14px,2vw,20px); }
+  .modal-intro{ font-size:clamp(.98rem,1.5vw,1.12rem); line-height:1.45; color:var(--muted);
+    max-width:54ch; margin-bottom:clamp(22px,3vw,32px); }
+  .fund-stats{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(16px,2vw,22px) clamp(20px,3vw,40px);
+    padding:clamp(20px,2.5vw,26px) 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    margin-bottom:clamp(24px,3vw,34px); }
+  .fund-stats dt{ font-size:.6rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:6px; }
+  .fund-stats dd{ font-size:clamp(.95rem,1.4vw,1.08rem); line-height:1.3; }
+  .pf-label{ margin-bottom:clamp(16px,2vw,22px); }
+  .pf-group + .pf-group{ margin-top:clamp(18px,2.4vw,26px); }
+  .pf-stage{ font-size:.6rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:8px; }
+  .pf-co{ display:flex; align-items:baseline; justify-content:space-between; gap:18px;
+    padding:11px 0; border-bottom:1px solid var(--line); transition:padding-left .35s var(--ease); }
+  .pf-co:hover{ padding-left:10px; }
+  .pf-name{ font-size:clamp(1.05rem,1.8vw,1.3rem); font-weight:500; letter-spacing:-.01em; }
+  .pf-link{ font-size:.78rem; letter-spacing:.03em; color:var(--muted); white-space:nowrap;
+    transition:color .25s var(--ease); }
+  .pf-co:hover .pf-link{ color:var(--cream); }
+  @media (max-width:560px){ .fund-stats{ grid-template-columns:1fr; } }
+
   /* ---------- Back-to-top button ---------- */
   .totop{
     position:fixed; right:clamp(20px,4vw,40px); bottom:clamp(20px,4vh,40px); z-index:75;
@@ -494,7 +539,7 @@
         </div>
         <div class="links">
           <!-- TODO: real URLs -->
-          <a href="#">Fund One</a>
+          <a href="#" data-open-nv1>NV1</a>
           <a href="#">LinkedIn</a>
         </div>
       </div>
@@ -506,7 +551,75 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
   </button>
 
+  <!-- NV1 fund pop-out -->
+  <div class="modal-backdrop" id="nv1Backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-label="NV1 Fund portfolio">
+      <button class="modal-close" id="nv1Close" aria-label="Close">&times;</button>
+      <div class="modal-scroll">
+        <div class="label">NV1 Fund</div>
+        <h2 class="modal-title">The NV1 Fund.</h2>
+        <p class="modal-intro">Separate from the studio, Night Ventures Fund invested in seed and Series&nbsp;A technology companies at the frontier of the creator economy. The fund is fully deployed.</p>
+
+        <dl class="fund-stats">
+          <div><dt>Asset type</dt><dd>Seed + Series A</dd></div>
+          <div><dt>Fund size</dt><dd>$20M</dd></div>
+          <div><dt>Status</dt><dd>Fully deployed &middot; 2024</dd></div>
+          <div><dt>Focus</dt><dd>Consumer Tech &middot; Consumer AI &amp; Infrastructure</dd></div>
+        </dl>
+
+        <div class="label pf-label">Portfolio</div>
+
+        <div class="pf-group">
+          <div class="pf-stage">Pre-seed</div>
+          <a class="pf-co" href="https://outtake.ai" target="_blank" rel="noopener"><span class="pf-name">Outtake</span><span class="pf-link">outtake.ai &rarr;</span></a>
+          <a class="pf-co" href="https://withcoverage.com" target="_blank" rel="noopener"><span class="pf-name">WithCoverage</span><span class="pf-link">withcoverage.com &rarr;</span></a>
+        </div>
+
+        <div class="pf-group">
+          <div class="pf-stage">Seed</div>
+          <a class="pf-co" href="https://innbeautyproject.com" target="_blank" rel="noopener"><span class="pf-name">INNBeauty</span><span class="pf-link">innbeautyproject.com &rarr;</span></a>
+          <a class="pf-co" href="https://stateaffairs.com" target="_blank" rel="noopener"><span class="pf-name">State Affairs</span><span class="pf-link">stateaffairs.com &rarr;</span></a>
+          <a class="pf-co" href="https://feastables.com" target="_blank" rel="noopener"><span class="pf-name">Feastables</span><span class="pf-link">feastables.com &rarr;</span></a>
+          <a class="pf-co" href="https://brightharbor.com" target="_blank" rel="noopener"><span class="pf-name">Bright Harbor</span><span class="pf-link">brightharbor.com &rarr;</span></a>
+          <a class="pf-co" href="https://groombuggy.com" target="_blank" rel="noopener"><span class="pf-name">Groombuggy</span><span class="pf-link">groombuggy.com &rarr;</span></a>
+          <a class="pf-co" href="https://themoldco.com" target="_blank" rel="noopener"><span class="pf-name">MoldCo</span><span class="pf-link">themoldco.com &rarr;</span></a>
+          <a class="pf-co" href="https://mynucleus.com" target="_blank" rel="noopener"><span class="pf-name">Nucleus</span><span class="pf-link">mynucleus.com &rarr;</span></a>
+          <a class="pf-co" href="https://markerlearning.com" target="_blank" rel="noopener"><span class="pf-name">Marker Learning</span><span class="pf-link">markerlearning.com &rarr;</span></a>
+          <a class="pf-co" href="https://faraway.gg" target="_blank" rel="noopener"><span class="pf-name">Faraway</span><span class="pf-link">faraway.gg &rarr;</span></a>
+        </div>
+
+        <div class="pf-group">
+          <div class="pf-stage">Series A</div>
+          <a class="pf-co" href="https://moonpay.com" target="_blank" rel="noopener"><span class="pf-name">Moonpay</span><span class="pf-link">moonpay.com &rarr;</span></a>
+          <a class="pf-co" href="https://italic.com" target="_blank" rel="noopener"><span class="pf-name">Italic</span><span class="pf-link">italic.com &rarr;</span></a>
+          <a class="pf-co" href="https://joinpogo.com" target="_blank" rel="noopener"><span class="pf-name">Pogo</span><span class="pf-link">joinpogo.com &rarr;</span></a>
+        </div>
+
+        <div class="pf-group">
+          <div class="pf-stage">Venture round</div>
+          <a class="pf-co" href="https://twitter.com" target="_blank" rel="noopener"><span class="pf-name">Twitter</span><span class="pf-link">twitter.com &rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    /* NV1 fund pop-out: open from footer, fade everything behind to cerulean */
+    (function(){
+      var bd = document.getElementById('nv1Backdrop');
+      if(!bd) return;
+      var closeBtn = document.getElementById('nv1Close');
+      function open(e){ if(e) e.preventDefault(); bd.hidden=false;
+        requestAnimationFrame(function(){ bd.classList.add('open'); });
+        document.documentElement.style.overflow='hidden'; }
+      function close(){ bd.classList.remove('open'); document.documentElement.style.overflow='';
+        setTimeout(function(){ bd.hidden=true; }, 450); }
+      document.querySelectorAll('[data-open-nv1]').forEach(function(o){ o.addEventListener('click', open); });
+      if(closeBtn) closeBtn.addEventListener('click', close);
+      bd.addEventListener('click', function(e){ if(e.target===bd) close(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !bd.hidden) close(); });
+    })();
+
     /* Load-in: type the headline, then reveal the rest of the page */
     (function(){
       var h = document.getElementById('headline');
@@ -531,7 +644,7 @@
       var x=0,y=0,cx=0,cy=0;
       document.addEventListener('mousemove',function(e){ x=e.clientX; y=e.clientY; });
       (function loop(){ cx+=(x-cx)*.2; cy+=(y-cy)*.2; c.style.left=cx+'px'; c.style.top=cy+'px'; requestAnimationFrame(loop); })();
-      document.querySelectorAll('a, .co, .node, .view-check, .totop').forEach(function(el){
+      document.querySelectorAll('a, .co, .node, .view-check, .totop, .modal-close').forEach(function(el){
         el.addEventListener('mouseenter',function(){ c.classList.add('hover'); });
         el.addEventListener('mouseleave',function(){ c.classList.remove('hover'); });
       });
