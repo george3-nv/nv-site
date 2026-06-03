@@ -733,24 +733,35 @@
       var i = 0, flown = false;
       html.style.overflow = 'hidden';
 
-      function land(){
-        if(land.done) return; land.done = true;
-        if(heroMark) heroMark.style.opacity = '1';   // reveal real mark (instant, same spot)
-        html.style.overflow = '';
-        revealSite();                                 // fade in the rest of section 1
-        setTimeout(function(){ if(loader.parentNode) loader.parentNode.removeChild(loader); }, 90);
-      }
       function fly(){
         if(flown) return; flown = true;
-        var from = logo.getBoundingClientRect();
-        var to = heroMark ? heroMark.getBoundingClientRect() : from;
-        var dx = to.left - from.left, dy = to.top - from.top;
-        var sc = from.height ? (to.height / from.height) : 1;
-        logo.style.transition = 'transform .85s var(--ease)';
-        logo.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
-        loader.classList.add('handoff');              // fade out loader bg + text
-        logo.addEventListener('transitionend', land, { once:true });
-        setTimeout(land, 1050);                        // fallback if transitionend misses
+        if(!heroMark){ html.style.overflow=''; revealSite();
+          if(loader.parentNode) loader.parentNode.removeChild(loader); return; }
+        /* FLIP on the REAL hero mark so there's no end-of-move swap (no hiccup):
+           place it exactly over the loader stand-in, hide the stand-in, then
+           transition the real mark home to its natural layout position. */
+        var from = logo.getBoundingClientRect();      // loader stand-in (centered)
+        var to = heroMark.getBoundingClientRect();    // real mark's home (laid out, hidden)
+        var dx = from.left - to.left, dy = from.top - to.top;
+        var sc = to.height ? (from.height / to.height) : 1;
+        heroMark.style.transition = 'none';
+        heroMark.style.transformOrigin = 'top left';
+        heroMark.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
+        heroMark.style.opacity = '1';
+        logo.style.display = 'none';                   // stand-in now perfectly covered — drop it instantly
+        loader.classList.add('handoff');               // fade loader bg + text
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){
+          heroMark.style.transition = 'transform .85s var(--ease)';
+          heroMark.style.transform = 'translate(0px,0px) scale(1)';
+          html.style.overflow = '';
+          revealSite();                                // fade in the rest of section 1
+          setTimeout(function(){
+            heroMark.style.transition = '';
+            heroMark.style.transform = '';
+            heroMark.style.transformOrigin = '';
+            if(loader.parentNode) loader.parentNode.removeChild(loader);
+          }, 980);
+        }); });
       }
       function afterType(){
         requestAnimationFrame(function(){ logo.style.opacity = '1'; });  // fade mark in
