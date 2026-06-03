@@ -96,7 +96,8 @@
   .bar .mark sup{ font-size:.58em; top:-.7em; }
   .bar .cities{ font-size:.72rem; font-weight:600; letter-spacing:.12em; color:var(--muted);
     text-align:right; line-height:1.5; }
-  .bar .cities span{ display:block; }
+  .bar .cities a{ display:block; color:inherit; transition:color .25s var(--ease); }
+  .bar .cities a:hover{ color:var(--cream); }
 
   /* ---------- Section 1: fold ---------- */
   .fold{ position:relative; display:flex; flex-direction:column; width:100%;
@@ -134,10 +135,14 @@
     font-size:clamp(2rem,5vw,4.6rem); font-weight:500; line-height:.8;
     letter-spacing:-.02em; max-width:70vw; text-wrap:balance;
   }
-  /* keep key phrases intact / on their own line on larger screens */
+  /* keep "It's a person you trust." on its own line on larger screens */
   @media (min-width:641px){
-    .nb{ white-space:nowrap; }
     .hero-text h1 .line2{ display:block; white-space:nowrap; }
+  }
+  /* orange underline on the closing phrase once it becomes the section-2 headline */
+  .head-locked .shared-flyer .nb{
+    text-decoration:underline; text-decoration-color:var(--accent);
+    text-decoration-thickness:.055em; text-underline-offset:.14em;
   }
   .hero-text .sub{
     margin-top:clamp(16px,2.4vh,28px);
@@ -324,7 +329,7 @@
   /* "Building with Night" section */
   .center-panel{ text-align:center; align-items:center; }
   .build-mid{ display:flex; flex-direction:column; align-items:center; }
-  .build-logo{ height:clamp(22px,2.6vw,34px); width:auto; display:block;
+  .build-logo{ height:clamp(15px,1.8vw,24px); width:auto; display:block;
     margin-bottom:clamp(22px,3.4vh,34px); }
   .build-h{ font-size:clamp(1.9rem,6.5vw,4rem); font-weight:500; line-height:1.02; letter-spacing:-.02em; }
   .build-sub{ margin-top:clamp(20px,3.2vh,32px); max-width:48ch;
@@ -350,6 +355,8 @@
   footer .mark{ font-size:.78rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
   footer .mark sup{ font-size:.58em; top:-.7em; }
   footer .mark .city{ display:block; margin-top:10px; color:var(--muted); font-weight:600; letter-spacing:.12em; text-transform:none; }
+  footer .mark a.city{ transition:color .25s var(--ease); }
+  footer .mark a.city:hover{ color:var(--cream); }
   footer .mark .addr2{ margin-top:4px; }
   footer .links{ display:flex; gap:28px; font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; }
   footer .links a{ color:var(--muted); transition:color .3s var(--ease); }
@@ -470,8 +477,8 @@
     <header class="bar">
       <div class="mark">Night Ventures<sup>&reg;</sup></div>
       <div class="cities">
-        <span>NY &mdash; 76 Wooster St, NYC</span>
-        <span>LA &mdash; 3402 Pico Blvd, Santa Monica</span>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=76+Wooster+St%2C+New+York%2C+NY" target="_blank" rel="noopener">NY &mdash; 76 Wooster St, NYC</a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=3402+Pico+Blvd%2C+Santa+Monica%2C+CA" target="_blank" rel="noopener">LA &mdash; 3402 Pico Blvd, Santa Monica</a>
       </div>
     </header>
 
@@ -622,8 +629,8 @@
       <div class="wrap footer-inner">
         <div class="mark">
           Night Ventures<sup>&reg;</sup>
-          <span class="city">NY &mdash; 76 Wooster St, NYC</span>
-          <span class="city addr2">LA &mdash; 3402 Pico Blvd, Santa Monica</span>
+          <a class="city" href="https://www.google.com/maps/search/?api=1&amp;query=76+Wooster+St%2C+New+York%2C+NY" target="_blank" rel="noopener">NY &mdash; 76 Wooster St, NYC</a>
+          <a class="city addr2" href="https://www.google.com/maps/search/?api=1&amp;query=3402+Pico+Blvd%2C+Santa+Monica%2C+CA" target="_blank" rel="noopener">LA &mdash; 3402 Pico Blvd, Santa Monica</a>
         </div>
         <div class="links">
           <a href="#" data-open-nv1>NV1</a>
