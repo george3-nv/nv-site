@@ -48,20 +48,19 @@
   .wrap{ max-width:1120px; margin:0 auto; padding:0 clamp(24px,5vw,64px); }
 
   /* ---------- Fake load-in screen ---------- */
-  #loader{ position:fixed; inset:0; z-index:200; background:var(--green);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:clamp(26px,4.4vh,44px);
-    transition:opacity .7s var(--ease), visibility .7s var(--ease); }
-  #loader.done{ opacity:0; visibility:hidden; pointer-events:none; }
+  #loader{ position:fixed; inset:0; z-index:200; pointer-events:none; }
+  #loaderBg{ position:absolute; inset:0; background:var(--green);
+    transition:opacity .8s var(--ease); }
+  .loader-inner{ position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:clamp(22px,3.6vh,38px); }
   .loader-line{ font-size:clamp(1.15rem,2.6vw,1.75rem); font-weight:500; letter-spacing:-.015em;
-    color:var(--cream); text-align:center; min-height:1.3em; padding:0 24px; }
-  .loader-mark{ position:relative; width:clamp(74px,9vw,94px); aspect-ratio:1/1;
-    border:1.5px solid var(--line); border-radius:50%; overflow:hidden;
-    display:flex; align-items:center; justify-content:center; }
-  .loader-mark::before{ content:""; position:absolute; inset:0; background:var(--accent);
-    transform:scaleX(0); transform-origin:left center; }
-  .loader-mark.fill::before{ transform:scaleX(1); transition:transform 2.1s var(--ease); }
-  .loader-mark img{ position:relative; z-index:2; width:56%; height:auto; display:block; }
+    color:var(--cream); text-align:center; min-height:1.3em; padding:0 24px;
+    transition:opacity .5s var(--ease); }
+  .loader-logo{ height:clamp(48px,5.5vw,76px); width:auto; display:block;
+    opacity:0; transform-origin:top left; will-change:transform;
+    transition:opacity .7s var(--ease); }
+  #loader.handoff #loaderBg{ opacity:0; }
+  #loader.handoff .loader-line{ opacity:0; }
   @media (prefers-reduced-motion:reduce){ #loader{ display:none; } }
 
   /* ---------- Force-scroll snapping (larger screens only) ---------- */
@@ -95,7 +94,9 @@
   }
   .bar .mark{ font-size:.78rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
   .bar .mark sup{ font-size:.58em; top:-.7em; }
-  .bar .cities{ font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+  .bar .cities{ font-size:.72rem; font-weight:600; letter-spacing:.12em; color:var(--muted);
+    text-align:right; line-height:1.5; }
+  .bar .cities span{ display:block; }
 
   /* ---------- Section 1: fold ---------- */
   .fold{ position:relative; display:flex; flex-direction:column; width:100%;
@@ -113,21 +114,30 @@
   .hero-mark{ display:block; height:clamp(48px,5.5vw,76px); width:auto;
     margin:0 0 clamp(22px,3.2vh,40px); }
 
-  /* Load-in: type headline first, then fade the rest in around it */
-  .bar, .hero-text .sub, .hero-rule, .hero-text .positioning, .scrollcue{
+  /* Load-in: hero mark lands first (from the loader), then everything fades in */
+  .bar, .hero-text h1, .hero-text .sub, .hero-rule, .hero-text .positioning, .scrollcue{
     transition:opacity 1.28s var(--ease); }
   html.preload .bar,
+  html.preload .hero-text h1,
   html.preload .hero-text .sub,
   html.preload .hero-rule,
   html.preload .hero-text .positioning,
   html.preload .scrollcue,
+  html.preload .hero-mark,
   html.preload .shared-flyer{ opacity:0; }
+  /* hero mark is revealed instantly at handoff, not faded */
+  .hero-mark{ transition:opacity .01s; }
   .cur{ display:inline-block; width:3px; height:.78em; background:currentColor;
     margin-left:4px; vertical-align:-0.04em; animation:blink 1s step-end infinite; }
   @keyframes blink{ 50%{ opacity:0; } }
   .hero-text h1{
     font-size:clamp(2rem,5vw,4.6rem); font-weight:500; line-height:.8;
-    letter-spacing:-.02em; max-width:70vw;
+    letter-spacing:-.02em; max-width:70vw; text-wrap:balance;
+  }
+  /* keep key phrases intact / on their own line on larger screens */
+  @media (min-width:641px){
+    .nb{ white-space:nowrap; }
+    .hero-text h1 .line2{ display:block; white-space:nowrap; }
   }
   .hero-text .sub{
     margin-top:clamp(16px,2.4vh,28px);
@@ -314,6 +324,8 @@
   /* "Building with Night" section */
   .center-panel{ text-align:center; align-items:center; }
   .build-mid{ display:flex; flex-direction:column; align-items:center; }
+  .build-logo{ height:clamp(22px,2.6vw,34px); width:auto; display:block;
+    margin-bottom:clamp(22px,3.4vh,34px); }
   .build-h{ font-size:clamp(1.9rem,6.5vw,4rem); font-weight:500; line-height:1.02; letter-spacing:-.02em; }
   .build-sub{ margin-top:clamp(20px,3.2vh,32px); max-width:48ch;
     font-size:clamp(1.02rem,1.7vw,1.32rem); font-weight:400; line-height:1.5; color:var(--muted); }
@@ -435,14 +447,17 @@
 
   <!-- Fake load-in screen -->
   <div id="loader">
-    <p class="loader-line" id="loaderLine"></p>
-    <div class="loader-mark"><img src="nv-mark-dark.png" alt="" /></div>
+    <div id="loaderBg"></div>
+    <div class="loader-inner">
+      <p class="loader-line" id="loaderLine"></p>
+      <img class="loader-logo" id="loaderLogo" src="nv-mark.png" alt="" />
+    </div>
   </div>
 
   <div id="cursor"></div>
 
   <!-- Shared text that morphs from section 1 line into section 2 header -->
-  <div class="shared-flyer" id="flyer" aria-hidden="true">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. We build companies with attention.</div>
+  <div class="shared-flyer" id="flyer" aria-hidden="true">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. <span class="nb">We build companies with attention.</span></div>
 
   <!-- Sticky menu bar (shown after section 1) -->
   <nav class="topbar" id="topbar">
@@ -454,15 +469,17 @@
   <section class="fold snap" id="top">
     <header class="bar">
       <div class="mark">Night Ventures<sup>&reg;</sup></div>
-      <div class="cities">LA &nbsp;&middot;&nbsp; NY</div>
+      <div class="cities">
+        <span>NY &mdash; 76 Wooster St, NYC</span>
+        <span>LA &mdash; 3402 Pico Blvd, Santa Monica</span>
+      </div>
     </header>
 
     <div class="hero-text">
-      <img class="hero-mark" src="nv-mark.png" alt="Night Ventures" />
-      <h1 id="headline">The most powerful distribution on the internet isn&rsquo;t a platform. It&rsquo;s a person you trust.</h1>
-      <script>(function(){var h=document.getElementById('headline');h.dataset.full=h.textContent;if(document.documentElement.classList.contains('preload')){h.style.minHeight=h.offsetHeight+'px';h.textContent='';}})();</script>
+      <img class="hero-mark" id="heroMark" src="nv-mark.png" alt="Night Ventures" />
+      <h1 id="headline">The most powerful distribution on the internet isn&rsquo;t a platform. <span class="line2">It&rsquo;s a person you trust.</span></h1>
       <div class="hero-rule"></div>
-      <p class="positioning shared-slot" id="slotA">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. We build companies with attention.</p>
+      <p class="positioning shared-slot" id="slotA">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. <span class="nb">We build companies with attention.</span></p>
     </div>
 
     <div class="scrollcue"><span>Scroll</span><span class="arr" aria-hidden="true">&darr;</span></div>
@@ -474,7 +491,7 @@
       <div class="approach-grid">
 
         <div class="cell head-cell">
-          <h2 class="section-head shared-slot" id="slotB">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. We build companies with attention.</h2>
+          <h2 class="section-head shared-slot" id="slotB">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. <span class="nb">We build companies with attention.</span></h2>
         </div>
 
         <div class="cell text-col head-fade">
@@ -586,8 +603,10 @@
   <!-- ===== SECTION 5: BUILDING WITH NIGHT ===== -->
   <section class="panel center-panel snap" id="building">
     <div class="wrap build-mid">
+      <img class="build-logo" src="night-logo.png" alt="Night" />
       <h2 class="build-h">Building with Night</h2>
       <p class="build-sub">Night Ventures works with Night Media &mdash; a talent management company that represents the most influential people on the internet. Building with Night Ventures means access to Night Media&rsquo;s network and beyond.</p>
+      <a class="cta-link" href="https://www.night.co" target="_blank" rel="noopener"><span>Learn more about Night</span><span class="arrow">&rarr;</span></a>
     </div>
   </section>
 
@@ -688,52 +707,54 @@
       document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !bd.hidden) close(); });
     })();
 
-    /* Fake load-in screen: type a line, sweep the circle, then reveal the site */
+    /* Fake load-in: type a line, fade the NV mark in beneath it, hold,
+       then fly the mark to its section-1 position as the site fades in. */
     (function(){
       var loader = document.getElementById('loader');
       if(!loader) return;
+      var html = document.documentElement;
+      function revealSite(){ html.classList.remove('preload'); }
       if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches){
-        if(loader.parentNode) loader.parentNode.removeChild(loader); return;
+        if(loader.parentNode) loader.parentNode.removeChild(loader);
+        revealSite(); return;
       }
       var line = document.getElementById('loaderLine');
-      var mark = loader.querySelector('.loader-mark');
+      var logo = document.getElementById('loaderLogo');
+      var heroMark = document.getElementById('heroMark');
       var text = 'We build companies with attention.';
       var caret = document.createElement('span'); caret.className = 'cur';
-      var i = 0, finished = false;
-      document.documentElement.style.overflow = 'hidden';
-      requestAnimationFrame(function(){ mark.classList.add('fill'); });
-      function finish(){
-        if(finished) return; finished = true;
-        document.documentElement.style.overflow = '';
-        loader.classList.add('done');
-        window.dispatchEvent(new Event('loaderdone'));
-        setTimeout(function(){ if(loader.parentNode) loader.parentNode.removeChild(loader); }, 760);
+      var i = 0, flown = false;
+      html.style.overflow = 'hidden';
+
+      function land(){
+        if(land.done) return; land.done = true;
+        if(heroMark) heroMark.style.opacity = '1';   // reveal real mark (instant, same spot)
+        html.style.overflow = '';
+        revealSite();                                 // fade in the rest of section 1
+        setTimeout(function(){ if(loader.parentNode) loader.parentNode.removeChild(loader); }, 90);
+      }
+      function fly(){
+        if(flown) return; flown = true;
+        var from = logo.getBoundingClientRect();
+        var to = heroMark ? heroMark.getBoundingClientRect() : from;
+        var dx = to.left - from.left, dy = to.top - from.top;
+        var sc = from.height ? (to.height / from.height) : 1;
+        logo.style.transition = 'transform .85s var(--ease)';
+        logo.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')';
+        loader.classList.add('handoff');              // fade out loader bg + text
+        logo.addEventListener('transitionend', land, { once:true });
+        setTimeout(land, 1050);                        // fallback if transitionend misses
+      }
+      function afterType(){
+        requestAnimationFrame(function(){ logo.style.opacity = '1'; });  // fade mark in
+        setTimeout(fly, 1200);                          // ~0.7s fade-in + ~0.5s hold
       }
       function tick(){
         i++; line.textContent = text.slice(0, i); line.appendChild(caret);
         if(i < text.length){ setTimeout(tick, 42); }
-        else { setTimeout(finish, 1000); }
+        else { setTimeout(afterType, 360); }
       }
       setTimeout(tick, 320);
-    })();
-
-    /* Load-in: type the headline, then reveal the rest of the page */
-    (function(){
-      var h = document.getElementById('headline');
-      if(!h || !document.documentElement.classList.contains('preload')) return;
-      var full = h.dataset.full || '';
-      var caret = document.createElement('span'); caret.className = 'cur';
-      var i = 0;
-      function reveal(){ document.documentElement.classList.remove('preload'); }
-      function tick(){
-        i++;
-        h.textContent = full.slice(0, i);
-        if(i < full.length){ h.appendChild(caret); setTimeout(tick, 33); }
-        else { setTimeout(function(){ h.textContent = full; h.style.minHeight = ''; reveal(); }, 375); }
-      }
-      var loaderEl = document.getElementById('loader');
-      if(loaderEl){ window.addEventListener('loaderdone', function(){ setTimeout(tick, 140); }, { once:true }); }
-      else { setTimeout(tick, 330); }
     })();
 
     /* Explore cursor */
