@@ -8,8 +8,8 @@
 <script>
   /* Theme (red default / white) — set before paint to avoid a flash */
   (function(){
-    var t = 'red';
-    try{ var s = localStorage.getItem('nv-theme'); if(s === 'white') t = 'white'; }catch(e){}
+    var t = 'dark';
+    try{ var s = localStorage.getItem('nv-theme'); if(s === 'light') t = 'light'; }catch(e){}
     document.documentElement.setAttribute('data-theme', t);
   })();
   /* Pin full-screen sections to the true visible viewport height */
@@ -27,20 +27,20 @@
   })();
 </script>
 <style>
-  :root, html[data-theme="red"]{
-    --green:#E23D2E; /* softened red background (var name is legacy: holds bg) */
-    --cream:#F3EEE6; /* warm off-white (text/foreground) */
-    --muted:rgba(243,238,230,.66);
-    --line:rgba(243,238,230,.26);
-    --accent:#1A1714; /* soft-black accent */
+  :root, html[data-theme="dark"]{
+    --green:#1D3557; /* prussian navy background (var name is legacy: holds bg) */
+    --cream:#F1FAEE; /* honeydew off-white (text/foreground) */
+    --muted:#A8DADC; /* powder-blue secondary */
+    --line:rgba(168,218,220,.26);
+    --accent:#E63946; /* red accent */
     --ease:cubic-bezier(.16,.84,.44,1);
   }
-  html[data-theme="white"]{
-    --green:#F3EEE6; /* warm off-white background */
-    --cream:#E23D2E; /* softened red (text/foreground) */
-    --muted:rgba(226,61,46,.64);
-    --line:rgba(226,61,46,.22);
-    --accent:#1A1714; /* soft-black accent */
+  html[data-theme="light"]{
+    --green:#F1FAEE; /* honeydew off-white background */
+    --cream:#1D3557; /* prussian navy (text/foreground) */
+    --muted:#457B9D; /* celadon-blue secondary */
+    --line:rgba(69,123,157,.30);
+    --accent:#E63946; /* red accent */
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -468,8 +468,8 @@
   .nvmark use, .nvmark path{ fill:currentColor; }
 
   /* ---------- Night wordmark: white on red, black on white ---------- */
-  [data-theme="red"] .build-logo{ filter:brightness(0) invert(1); }
-  [data-theme="white"] .build-logo{ filter:none; }
+  [data-theme="dark"] .build-logo{ filter:brightness(0) invert(1); }
+  [data-theme="light"] .build-logo{ filter:none; }
 
   /* talent tag emphasis reads on any theme */
   .tag.talent{ color:var(--cream); border-color:var(--cream); }
@@ -505,7 +505,7 @@
   #nv1Backdrop .modal{ background:#ffffff; color:#111; border:1px solid rgba(17,17,17,.12); }
   #nv1Backdrop .modal-close{ color:#111; border-color:rgba(17,17,17,.22); }
   #nv1Backdrop .modal-close:hover{ border-color:#111; }
-  #nv1Backdrop .label{ color:#FE2E24; }
+  #nv1Backdrop .label{ color:#E63946; }
   #nv1Backdrop .modal-intro{ color:rgba(17,17,17,.6); }
   #nv1Backdrop .fund-stats{ border-color:rgba(17,17,17,.14); }
   #nv1Backdrop .fund-stats dt{ color:rgba(17,17,17,.55); }
@@ -1033,8 +1033,8 @@
       var btns = document.querySelectorAll('.theme-toggle');
       if(!btns.length) return;
       function flip(){
-        var cur = document.documentElement.getAttribute('data-theme') === 'white' ? 'white' : 'red';
-        var next = cur === 'white' ? 'red' : 'white';
+        var cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        var next = cur === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', next);
         try{ localStorage.setItem('nv-theme', next); }catch(e){}
       }
