@@ -28,19 +28,19 @@
 </script>
 <style>
   :root, html[data-theme="red"]{
-    --green:#FE2E24; /* RED background (var name is legacy: holds bg) */
-    --cream:#FFFFFF; /* white (text/foreground) */
-    --muted:rgba(255,255,255,.64);
-    --line:rgba(255,255,255,.28);
-    --accent:#111111; /* black accent */
+    --green:#E23D2E; /* softened red background (var name is legacy: holds bg) */
+    --cream:#F3EEE6; /* warm off-white (text/foreground) */
+    --muted:rgba(243,238,230,.66);
+    --line:rgba(243,238,230,.26);
+    --accent:#1A1714; /* soft-black accent */
     --ease:cubic-bezier(.16,.84,.44,1);
   }
   html[data-theme="white"]{
-    --green:#FFFFFF; /* white background */
-    --cream:#FE2E24; /* red (text/foreground) */
-    --muted:rgba(254,46,36,.62);
-    --line:rgba(254,46,36,.24);
-    --accent:#111111; /* black accent */
+    --green:#F3EEE6; /* warm off-white background */
+    --cream:#E23D2E; /* softened red (text/foreground) */
+    --muted:rgba(226,61,46,.64);
+    --line:rgba(226,61,46,.22);
+    --accent:#1A1714; /* soft-black accent */
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -70,7 +70,7 @@
   .loader-line{ font-size:clamp(1.15rem,2.6vw,1.75rem); font-weight:500; letter-spacing:-.015em;
     color:var(--cream); text-align:center; min-height:1.3em; padding:0 24px;
     transition:opacity .5s var(--ease); }
-  .loader-logo{ height:clamp(48px,5.5vw,76px); width:auto; aspect-ratio:186/76; display:block;
+  .loader-logo{ height:clamp(40px,4.6vw,64px); width:auto; aspect-ratio:186/76; display:block;
     opacity:0; transform-origin:top left; will-change:transform;
     transition:opacity .7s var(--ease); }
   #loader.handoff #loaderBg{ opacity:0; }
@@ -126,7 +126,7 @@
   @media (max-width:640px){ .scrollcue{ display:none; } }
 
   .hero-text{ margin-top:auto; }
-  .hero-mark{ display:block; height:clamp(48px,5.5vw,76px); width:auto; aspect-ratio:186/76;
+  .hero-mark{ display:block; height:clamp(40px,4.6vw,64px); width:auto; aspect-ratio:186/76;
     margin:0 0 clamp(22px,3.2vh,40px); }
 
   /* Load-in: hero mark lands first (from the loader), then everything fades in */
@@ -487,20 +487,6 @@
     background:linear-gradient(90deg, var(--cream) 0 50%, transparent 50% 100%);
     border:1px solid var(--cream); box-sizing:border-box; }
 
-  /* ---------- Rotating seal badge ---------- */
-  .seal{ position:relative; width:var(--seal,150px); height:var(--seal,150px);
-    display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
-  .hero-seal{ position:absolute; z-index:6; --seal:clamp(118px,14vw,176px);
-    right:clamp(28px,6vw,86px); bottom:clamp(74px,13vh,128px); }
-  @media (max-width:760px){ .hero-seal{ --seal:104px; right:18px; bottom:88px; } }
-  @media (max-width:430px){ .hero-seal{ display:none; } }
-  .seal-ring{ position:absolute; inset:0; width:100%; height:100%; color:var(--cream);
-    will-change:transform; }
-  .seal-ring text{ fill:currentColor; font-size:13.2px; font-weight:700;
-    letter-spacing:.18em; text-transform:uppercase; }
-  .seal-mark{ position:relative; width:42%; height:auto; color:var(--cream); }
-  @media (prefers-reduced-motion:reduce){ .seal-ring{ display:none; } }
-
   /* ---------- NV1 modal: fixed light card (reads on any theme) ---------- */
   #nv1Backdrop{ background:rgba(0,0,0,.5); }
   #nv1Backdrop .modal{ background:#ffffff; color:#111; border:1px solid rgba(17,17,17,.12); }
@@ -561,14 +547,6 @@
       <h1 id="headline">The most powerful distribution on the internet isn&rsquo;t a platform. <span class="line2">It&rsquo;s a person you trust.</span></h1>
       <div class="hero-rule"></div>
       <p class="positioning shared-slot" id="slotA">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. <span class="nb">We build companies with attention.</span></p>
-    </div>
-
-    <div class="seal hero-seal" aria-hidden="true">
-      <svg class="seal-ring" id="heroSeal" viewBox="0 0 200 200">
-        <defs><path id="sealPath" d="M 100 22 A 78 78 0 1 1 100 178 A 78 78 0 1 1 100 22"/></defs>
-        <text><textPath id="sealText" href="#sealPath" startOffset="0">BUILDING COMPANIES WITH ATTENTION&nbsp;&nbsp;&bull;&nbsp;&nbsp;BUILDING COMPANIES WITH ATTENTION&nbsp;&nbsp;&bull;&nbsp;&nbsp;</textPath></text>
-      </svg>
-      <svg class="seal-mark nvmark" viewBox="0 0 186 76" aria-hidden="true"><use href="#nv-mark"/></svg>
     </div>
 
     <div class="scrollcue"><span>Scroll</span><span class="arr" aria-hidden="true">&darr;</span></div>
@@ -1046,26 +1024,6 @@
       });
     })();
 
-    /* Rotating seal: fit the curved text to the ring; gentle idle spin that
-       scrolling accelerates (snap scrolling makes pure scroll-rotation too small). */
-    (function(){
-      var ring = document.getElementById('heroSeal');
-      if(!ring) return;
-      var path = document.getElementById('sealPath');
-      var txt  = document.getElementById('sealText');
-      function fit(){ if(path && txt){ try{ txt.setAttribute('textLength', path.getTotalLength()); txt.setAttribute('lengthAdjust','spacingAndGlyphs'); }catch(e){} } }
-      fit();
-      window.addEventListener('resize', fit);
-      if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-      var spin = 0, last = performance.now();
-      function loop(now){
-        var dt = now - last; last = now;
-        spin += dt * 0.006;                       /* ~6°/sec idle */
-        ring.style.transform = 'rotate(' + (spin + window.pageYOffset * 0.10) + 'deg)';
-        requestAnimationFrame(loop);
-      }
-      requestAnimationFrame(loop);
-    })();
   </script>
 
 </body>
