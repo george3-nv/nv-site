@@ -476,16 +476,16 @@
 
   /* ---------- Red/White theme toggle ---------- */
   .theme-toggle{
-    position:fixed; left:clamp(20px,4vw,40px); bottom:clamp(20px,4vh,40px); z-index:75;
-    width:46px; height:46px; border-radius:50%; padding:0;
+    display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto;
+    width:18px; height:18px; padding:0; border-radius:50%;
     background:transparent; border:1px solid var(--line); color:var(--cream);
-    display:flex; align-items:center; justify-content:center; cursor:pointer;
-    transition:border-color .3s var(--ease), transform .4s var(--ease); overflow:hidden;
+    cursor:pointer; transition:border-color .3s var(--ease);
   }
   .theme-toggle:hover{ border-color:var(--cream); }
-  .theme-toggle .half{ width:24px; height:24px; border-radius:50%;
+  .theme-toggle .half{ width:10px; height:10px; border-radius:50%;
     background:linear-gradient(90deg, var(--cream) 0 50%, transparent 50% 100%);
     border:1px solid var(--cream); box-sizing:border-box; }
+  .bar-right, .tb-right{ display:flex; align-items:center; gap:clamp(12px,1.5vw,18px); }
 
   /* ---------- NV1 modal: fixed light card (reads on any theme) ---------- */
   #nv1Backdrop{ background:rgba(0,0,0,.5); }
@@ -510,9 +510,6 @@
     <symbol id="nv-twinkle" viewBox="0 0 288 288"><path fill="currentColor" d="M144 0C155.635 0 166.947 1.38124 177.783 3.98633L170.911 85.4746C169.813 98.4887 159.489 108.813 146.475 109.911L15 121L146.475 132.089C159.489 133.187 169.813 143.511 170.911 156.525L181.582 283.045C169.601 286.275 157.002 288 144 288C64.471 288 0 223.529 0 144C0 64.471 64.471 0 144 0ZM286.912 126.236C287.628 132.057 288 137.985 288 144C288 210.217 243.305 265.992 182.438 282.81L193.089 156.525C194.187 143.511 204.511 133.187 217.525 132.089L286.912 126.236ZM186.415 6.34961C236.418 21.7391 274.808 63.6245 285.201 115.618L217.525 109.911C204.511 108.813 194.187 98.4887 193.089 85.4746L186.415 6.34961Z"/></symbol>
   </svg>
 
-  <!-- Red / White theme toggle -->
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle red / white theme"><span class="half"></span></button>
-
   <!-- Fake load-in screen -->
   <div id="loader">
     <div id="loaderBg"></div>
@@ -530,15 +527,21 @@
   <!-- Sticky menu bar (shown after section 1) -->
   <nav class="topbar" id="topbar">
     <a class="tb-logo" href="#top" aria-label="Night Ventures — back to top"><svg class="nvmark" viewBox="0 0 186 76" aria-hidden="true"><use href="#nv-mark"/></svg></a>
-    <div class="tb-cities">NY &nbsp;&middot;&nbsp; LA</div>
+    <div class="tb-right">
+      <div class="tb-cities">NY &nbsp;&middot;&nbsp; LA</div>
+      <button class="theme-toggle" aria-label="Toggle red / white theme"><span class="half"></span></button>
+    </div>
   </nav>
 
   <!-- ===== SECTION 1: HEADER / FOLD ===== -->
   <section class="fold snap" id="top">
     <header class="bar">
       <div class="mark">Night Ventures<sup>&reg;</sup></div>
-      <div class="cities">
-        <a href="https://www.google.com/maps/search/?api=1&amp;query=76+Wooster+St%2C+New+York%2C+NY" target="_blank" rel="noopener">NY</a> &mdash; <a href="https://www.google.com/maps/search/?api=1&amp;query=3402+Pico+Blvd%2C+Santa+Monica%2C+CA" target="_blank" rel="noopener">LA</a>
+      <div class="bar-right">
+        <div class="cities">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=76+Wooster+St%2C+New+York%2C+NY" target="_blank" rel="noopener">NY</a> &mdash; <a href="https://www.google.com/maps/search/?api=1&amp;query=3402+Pico+Blvd%2C+Santa+Monica%2C+CA" target="_blank" rel="noopener">LA</a>
+        </div>
+        <button class="theme-toggle" aria-label="Toggle red / white theme"><span class="half"></span></button>
       </div>
     </header>
 
@@ -1014,14 +1017,15 @@
 
     /* Red / White theme toggle (persisted) */
     (function(){
-      var btn = document.getElementById('themeToggle');
-      if(!btn) return;
-      btn.addEventListener('click', function(){
+      var btns = document.querySelectorAll('.theme-toggle');
+      if(!btns.length) return;
+      function flip(){
         var cur = document.documentElement.getAttribute('data-theme') === 'white' ? 'white' : 'red';
         var next = cur === 'white' ? 'red' : 'white';
         document.documentElement.setAttribute('data-theme', next);
         try{ localStorage.setItem('nv-theme', next); }catch(e){}
-      });
+      }
+      btns.forEach(function(b){ b.addEventListener('click', flip); });
     })();
 
   </script>
