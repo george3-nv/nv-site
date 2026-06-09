@@ -36,10 +36,10 @@
     --ease:cubic-bezier(.16,.84,.44,1);
   }
   html[data-theme="light"]{
-    --green:#F1FAEE; /* honeydew off-white background */
+    --green:#A8DADC; /* powder-blue light background */
     --cream:#1D3557; /* prussian navy (text/foreground) */
     --muted:#457B9D; /* celadon-blue secondary */
-    --line:rgba(69,123,157,.30);
+    --line:rgba(29,53,87,.22); /* navy lines */
     --accent:#E63946; /* red accent */
   }
 
@@ -464,7 +464,7 @@
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
 
   /* ---------- Inline NV mark (inherits theme color) ---------- */
-  .nvmark{ display:block; color:var(--cream); }
+  .nvmark{ display:block; color:var(--accent); }
   .nvmark use, .nvmark path{ fill:currentColor; }
 
   /* ---------- Night wordmark: white on red, black on white ---------- */
