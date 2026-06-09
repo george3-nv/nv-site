@@ -6,6 +6,12 @@
 <title>Night Ventures</title>
 <meta name="description" content="Night Ventures is a venture studio that builds companies with attention." />
 <script>
+  /* Theme (red default / white) — set before paint to avoid a flash */
+  (function(){
+    var t = 'red';
+    try{ var s = localStorage.getItem('nv-theme'); if(s === 'white') t = 'white'; }catch(e){}
+    document.documentElement.setAttribute('data-theme', t);
+  })();
   /* Pin full-screen sections to the true visible viewport height */
   (function(){
     function setVH(){ document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px'); }
@@ -21,13 +27,20 @@
   })();
 </script>
 <style>
-  :root{
-    --green:#E8E1D1; /* sand (background — var name is legacy) */
-    --cream:#1A1714; /* warm near-black (text/foreground) */
-    --muted:rgba(26,23,20,.55);
-    --line:rgba(26,23,20,.18);
-    --accent:#DD5424; /* orange accent */
+  :root, html[data-theme="red"]{
+    --green:#FE2E24; /* RED background (var name is legacy: holds bg) */
+    --cream:#FFFFFF; /* white (text/foreground) */
+    --muted:rgba(255,255,255,.64);
+    --line:rgba(255,255,255,.28);
+    --accent:#111111; /* black accent */
     --ease:cubic-bezier(.16,.84,.44,1);
+  }
+  html[data-theme="white"]{
+    --green:#FFFFFF; /* white background */
+    --cream:#FE2E24; /* red (text/foreground) */
+    --muted:rgba(254,46,36,.62);
+    --line:rgba(254,46,36,.24);
+    --accent:#111111; /* black accent */
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -40,6 +53,7 @@
     font-weight:400; line-height:1.4; letter-spacing:.005em;
     -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     overflow-x:hidden;
+    transition:background .55s var(--ease), color .55s var(--ease);
   }
   ::selection{ background:var(--accent); color:var(--green); }
   ::-moz-selection{ background:var(--accent); color:var(--green); }
@@ -56,7 +70,7 @@
   .loader-line{ font-size:clamp(1.15rem,2.6vw,1.75rem); font-weight:500; letter-spacing:-.015em;
     color:var(--cream); text-align:center; min-height:1.3em; padding:0 24px;
     transition:opacity .5s var(--ease); }
-  .loader-logo{ height:clamp(48px,5.5vw,76px); width:auto; display:block;
+  .loader-logo{ height:clamp(48px,5.5vw,76px); width:auto; aspect-ratio:186/76; display:block;
     opacity:0; transform-origin:top left; will-change:transform;
     transition:opacity .7s var(--ease); }
   #loader.handoff #loaderBg{ opacity:0; }
@@ -79,10 +93,10 @@
   }
   .topbar.show{ transform:translateY(0); }
   .topbar .tb-logo{ display:inline-flex; align-items:center; }
-  .topbar .tb-logo img{ height:26px; width:auto; display:block;
+  .topbar .tb-logo svg{ height:22px; width:auto; aspect-ratio:186/76; display:block;
     transform:rotate(-90deg) scale(.7); transform-origin:center;
     transition:transform .9s var(--ease) .12s; }
-  .topbar.show .tb-logo img{ transform:rotate(0) scale(1); }
+  .topbar.show .tb-logo svg{ transform:rotate(0) scale(1); }
   .topbar .tb-cities{ font-size:.72rem; font-weight:600; letter-spacing:.2em;
     text-transform:uppercase; color:var(--muted); }
 
@@ -112,7 +126,7 @@
   @media (max-width:640px){ .scrollcue{ display:none; } }
 
   .hero-text{ margin-top:auto; }
-  .hero-mark{ display:block; height:clamp(48px,5.5vw,76px); width:auto;
+  .hero-mark{ display:block; height:clamp(48px,5.5vw,76px); width:auto; aspect-ratio:186/76;
     margin:0 0 clamp(22px,3.2vh,40px); }
 
   /* Load-in: hero mark lands first (from the loader), then everything fades in */
@@ -441,23 +455,84 @@
   /* ---------- Explore cursor (fine pointers only) ---------- */
   #cursor{
     position:fixed; top:0; left:0; width:10px; height:10px; border-radius:50%;
-    background:rgba(221,84,36,.85); pointer-events:none; z-index:90;
-    transform:translate(-50%,-50%); transition:width .25s var(--ease),height .25s var(--ease),background .25s var(--ease);
+    background:var(--accent); opacity:.82; pointer-events:none; z-index:90;
+    transform:translate(-50%,-50%); transition:width .25s var(--ease),height .25s var(--ease),opacity .25s var(--ease);
     display:none;
   }
-  #cursor.hover{ width:64px; height:64px; background:rgba(221,84,36,.42); }
-  @media (pointer:fine){ #cursor{ display:block; } body{ cursor:none; } a,.co,.node,.totop,.view-check{ cursor:none; } }
+  #cursor.hover{ width:64px; height:64px; opacity:.4; }
+  @media (pointer:fine){ #cursor{ display:block; } body{ cursor:none; } a,.co,.node,.totop,.view-check,.theme-toggle{ cursor:none; } }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
+
+  /* ---------- Inline NV mark (inherits theme color) ---------- */
+  .nvmark{ display:block; color:var(--cream); }
+  .nvmark use, .nvmark path{ fill:currentColor; }
+
+  /* ---------- Night wordmark: white on red, black on white ---------- */
+  [data-theme="red"] .build-logo{ filter:brightness(0) invert(1); }
+  [data-theme="white"] .build-logo{ filter:none; }
+
+  /* talent tag emphasis reads on any theme */
+  .tag.talent{ color:var(--cream); border-color:var(--cream); }
+
+  /* ---------- Red/White theme toggle ---------- */
+  .theme-toggle{
+    position:fixed; left:clamp(20px,4vw,40px); bottom:clamp(20px,4vh,40px); z-index:75;
+    width:46px; height:46px; border-radius:50%; padding:0;
+    background:transparent; border:1px solid var(--line); color:var(--cream);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:border-color .3s var(--ease), transform .4s var(--ease); overflow:hidden;
+  }
+  .theme-toggle:hover{ border-color:var(--cream); }
+  .theme-toggle .half{ width:24px; height:24px; border-radius:50%;
+    background:linear-gradient(90deg, var(--cream) 0 50%, transparent 50% 100%);
+    border:1px solid var(--cream); box-sizing:border-box; }
+
+  /* ---------- Rotating seal badge ---------- */
+  .seal{ position:relative; width:var(--seal,150px); height:var(--seal,150px);
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .hero-seal{ position:absolute; z-index:6; --seal:clamp(118px,14vw,176px);
+    right:clamp(28px,6vw,86px); bottom:clamp(74px,13vh,128px); }
+  @media (max-width:760px){ .hero-seal{ --seal:104px; right:18px; bottom:88px; } }
+  @media (max-width:430px){ .hero-seal{ display:none; } }
+  .seal-ring{ position:absolute; inset:0; width:100%; height:100%; color:var(--cream);
+    will-change:transform; }
+  .seal-ring text{ fill:currentColor; font-size:13.2px; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; }
+  .seal-mark{ position:relative; width:42%; height:auto; color:var(--cream); }
+  @media (prefers-reduced-motion:reduce){ .seal-ring{ display:none; } }
+
+  /* ---------- NV1 modal: fixed light card (reads on any theme) ---------- */
+  #nv1Backdrop{ background:rgba(0,0,0,.5); }
+  #nv1Backdrop .modal{ background:#ffffff; color:#111; border:1px solid rgba(17,17,17,.12); }
+  #nv1Backdrop .modal-close{ color:#111; border-color:rgba(17,17,17,.22); }
+  #nv1Backdrop .modal-close:hover{ border-color:#111; }
+  #nv1Backdrop .label{ color:#FE2E24; }
+  #nv1Backdrop .modal-intro{ color:rgba(17,17,17,.6); }
+  #nv1Backdrop .fund-stats{ border-color:rgba(17,17,17,.14); }
+  #nv1Backdrop .fund-stats dt{ color:rgba(17,17,17,.55); }
+  #nv1Backdrop .pf-stage{ color:rgba(17,17,17,.55); }
+  #nv1Backdrop .pf-co{ border-bottom-color:rgba(17,17,17,.12); }
+  #nv1Backdrop .pf-link{ color:rgba(17,17,17,.5); }
+  #nv1Backdrop .pf-co:hover .pf-link{ color:#111; }
 </style>
 </head>
 <body>
+
+  <!-- Reusable vector marks (inherit theme color via currentColor) -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;overflow:hidden">
+    <symbol id="nv-mark" viewBox="0 0 186 76"><path fill="currentColor" d="M32.8472 0L0 75.3083H29.6426L46.4668 35.2507L64.0922 75.3083H90.9307L115.366 19.6282V51.6743L125.781 75.3083H153.02L185.467 0H156.625L138.599 40.0576L122.176 0H94.9365L77.3112 40.0576L59.6858 0H32.8472Z"/></symbol>
+    <symbol id="nv-twinkle" viewBox="0 0 288 288"><path fill="currentColor" d="M144 0C155.635 0 166.947 1.38124 177.783 3.98633L170.911 85.4746C169.813 98.4887 159.489 108.813 146.475 109.911L15 121L146.475 132.089C159.489 133.187 169.813 143.511 170.911 156.525L181.582 283.045C169.601 286.275 157.002 288 144 288C64.471 288 0 223.529 0 144C0 64.471 64.471 0 144 0ZM286.912 126.236C287.628 132.057 288 137.985 288 144C288 210.217 243.305 265.992 182.438 282.81L193.089 156.525C194.187 143.511 204.511 133.187 217.525 132.089L286.912 126.236ZM186.415 6.34961C236.418 21.7391 274.808 63.6245 285.201 115.618L217.525 109.911C204.511 108.813 194.187 98.4887 193.089 85.4746L186.415 6.34961Z"/></symbol>
+  </svg>
+
+  <!-- Red / White theme toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle red / white theme"><span class="half"></span></button>
 
   <!-- Fake load-in screen -->
   <div id="loader">
     <div id="loaderBg"></div>
     <div class="loader-inner">
       <p class="loader-line" id="loaderLine"></p>
-      <img class="loader-logo" id="loaderLogo" src="nv-mark.png" alt="" />
+      <svg class="loader-logo nvmark" id="loaderLogo" viewBox="0 0 186 76" aria-hidden="true"><use href="#nv-mark"/></svg>
     </div>
   </div>
 
@@ -468,7 +543,7 @@
 
   <!-- Sticky menu bar (shown after section 1) -->
   <nav class="topbar" id="topbar">
-    <a class="tb-logo" href="#top" aria-label="Night Ventures — back to top"><img src="nv-mark.png" alt="Night Ventures" /></a>
+    <a class="tb-logo" href="#top" aria-label="Night Ventures — back to top"><svg class="nvmark" viewBox="0 0 186 76" aria-hidden="true"><use href="#nv-mark"/></svg></a>
     <div class="tb-cities">NY &nbsp;&middot;&nbsp; LA</div>
   </nav>
 
@@ -482,10 +557,18 @@
     </header>
 
     <div class="hero-text">
-      <img class="hero-mark" id="heroMark" src="nv-mark.png" alt="Night Ventures" />
+      <svg class="hero-mark nvmark" id="heroMark" viewBox="0 0 186 76" role="img" aria-label="Night Ventures"><use href="#nv-mark"/></svg>
       <h1 id="headline">The most powerful distribution on the internet isn&rsquo;t a platform. <span class="line2">It&rsquo;s a person you trust.</span></h1>
       <div class="hero-rule"></div>
       <p class="positioning shared-slot" id="slotA">Night Ventures is a venture studio that brings together exceptional operators with the internet&rsquo;s most powerful distribution. <span class="nb">We build companies with attention.</span></p>
+    </div>
+
+    <div class="seal hero-seal" aria-hidden="true">
+      <svg class="seal-ring" id="heroSeal" viewBox="0 0 200 200">
+        <defs><path id="sealPath" d="M 100 22 A 78 78 0 1 1 100 178 A 78 78 0 1 1 100 22"/></defs>
+        <text><textPath id="sealText" href="#sealPath" startOffset="0">BUILDING COMPANIES WITH ATTENTION&nbsp;&nbsp;&bull;&nbsp;&nbsp;BUILDING COMPANIES WITH ATTENTION&nbsp;&nbsp;&bull;&nbsp;&nbsp;</textPath></text>
+      </svg>
+      <svg class="seal-mark nvmark" viewBox="0 0 186 76" aria-hidden="true"><use href="#nv-mark"/></svg>
     </div>
 
     <div class="scrollcue"><span>Scroll</span><span class="arr" aria-hidden="true">&darr;</span></div>
@@ -541,12 +624,12 @@
 
           <!-- NV mark in a circle -->
           <circle cx="625" cy="235" r="74" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity=".85"/>
-          <image href="nv-mark.png" x="560" y="202" width="130" height="66" preserveAspectRatio="xMidYMid meet"/>
+          <use href="#nv-mark" x="560" y="208" width="130" height="53" fill="currentColor"/>
 
           <!-- labels -->
           <g fill="currentColor" font-weight="500">
             <text x="210" y="100" font-size="30" text-anchor="end" dominant-baseline="middle">Hypothesis</text>
-            <text x="210" y="190" font-size="30" text-anchor="end" dominant-baseline="middle">Talent</text>
+            <text x="210" y="190" font-size="30" text-anchor="end" dominant-baseline="middle">Distribution</text>
             <text x="210" y="280" font-size="30" text-anchor="end" dominant-baseline="middle">Operator</text>
             <text x="210" y="370" font-size="30" text-anchor="end" dominant-baseline="middle">Financing</text>
             <text x="832" y="221" font-size="32" dominant-baseline="middle">New</text>
@@ -949,6 +1032,39 @@
       if(top) top.addEventListener('click', toTop);
       var tl = document.querySelector('.tb-logo');
       if(tl) tl.addEventListener('click', function(e){ e.preventDefault(); toTop(); });
+    })();
+
+    /* Red / White theme toggle (persisted) */
+    (function(){
+      var btn = document.getElementById('themeToggle');
+      if(!btn) return;
+      btn.addEventListener('click', function(){
+        var cur = document.documentElement.getAttribute('data-theme') === 'white' ? 'white' : 'red';
+        var next = cur === 'white' ? 'red' : 'white';
+        document.documentElement.setAttribute('data-theme', next);
+        try{ localStorage.setItem('nv-theme', next); }catch(e){}
+      });
+    })();
+
+    /* Rotating seal: fit the curved text to the ring; gentle idle spin that
+       scrolling accelerates (snap scrolling makes pure scroll-rotation too small). */
+    (function(){
+      var ring = document.getElementById('heroSeal');
+      if(!ring) return;
+      var path = document.getElementById('sealPath');
+      var txt  = document.getElementById('sealText');
+      function fit(){ if(path && txt){ try{ txt.setAttribute('textLength', path.getTotalLength()); txt.setAttribute('lengthAdjust','spacingAndGlyphs'); }catch(e){} } }
+      fit();
+      window.addEventListener('resize', fit);
+      if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      var spin = 0, last = performance.now();
+      function loop(now){
+        var dt = now - last; last = now;
+        spin += dt * 0.006;                       /* ~6°/sec idle */
+        ring.style.transform = 'rotate(' + (spin + window.pageYOffset * 0.10) + 'deg)';
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
     })();
   </script>
 
