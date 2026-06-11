@@ -8,8 +8,8 @@
 <script>
   /* Theme (red default / white) — set before paint to avoid a flash */
   (function(){
-    var t = 'dark';
-    try{ var s = localStorage.getItem('nv-theme'); if(s === 'light') t = 'light'; }catch(e){}
+    var t = 'light';
+    try{ var s = localStorage.getItem('nv-theme'); if(s === 'dark') t = 'dark'; }catch(e){}
     document.documentElement.setAttribute('data-theme', t);
   })();
   /* Pin full-screen sections to the true visible viewport height */
@@ -27,20 +27,20 @@
   })();
 </script>
 <style>
-  :root, html[data-theme="dark"]{
-    --green:#022660; /* deep dawn indigo background (var name is legacy: holds bg) */
-    --cream:#E5C7BB; /* warm blush (text/foreground) */
-    --muted:rgba(229,199,187,.58); /* dimmed blush secondary */
-    --line:rgba(229,199,187,.22);
-    --accent:#CE75C2; /* dawn pink accent */
+  :root, html[data-theme="light"]{
+    --green:#E8E1D1; /* sand background (var name is legacy: holds bg) */
+    --cream:#1A1714; /* warm near-black (text/foreground) */
+    --muted:rgba(26,23,20,.55);
+    --line:rgba(26,23,20,.18);
+    --accent:#DD5424; /* orange accent */
     --ease:cubic-bezier(.16,.84,.44,1);
   }
-  html[data-theme="light"]{
-    --green:#E5C7BB; /* warm blush light background */
-    --cream:#022660; /* deep dawn indigo (text/foreground) */
-    --muted:#6D54A9; /* dusk-purple secondary */
-    --line:rgba(2,38,96,.20); /* indigo lines */
-    --accent:#CE75C2; /* dawn pink accent */
+  html[data-theme="dark"]{
+    --green:#1A1714; /* near-black background */
+    --cream:#E8E1D1; /* sand (text/foreground) */
+    --muted:rgba(232,225,209,.58);
+    --line:rgba(232,225,209,.20);
+    --accent:#DD5424; /* orange accent */
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -505,7 +505,7 @@
   #nv1Backdrop .modal{ background:#ffffff; color:#111; border:1px solid rgba(17,17,17,.12); }
   #nv1Backdrop .modal-close{ color:#111; border-color:rgba(17,17,17,.22); }
   #nv1Backdrop .modal-close:hover{ border-color:#111; }
-  #nv1Backdrop .label{ color:#CE75C2; }
+  #nv1Backdrop .label{ color:#DD5424; }
   #nv1Backdrop .modal-intro{ color:rgba(17,17,17,.6); }
   #nv1Backdrop .fund-stats{ border-color:rgba(17,17,17,.14); }
   #nv1Backdrop .fund-stats dt{ color:rgba(17,17,17,.55); }
