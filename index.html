@@ -373,17 +373,24 @@
   .cta-link:hover .arrow{ transform:translateX(6px); }
 
   footer{ border-top:1px solid var(--line); width:100%; }
-  .footer-inner{ display:flex; flex-wrap:wrap; gap:20px 48px; align-items:flex-end; justify-content:space-between;
-    padding-top:clamp(26px,4vh,44px); padding-bottom:clamp(24px,4vh,38px); }
-  footer .mark{ font-size:.78rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; }
-  footer .mark sup{ font-size:.58em; top:-.7em; }
-  footer .mark .city{ display:block; margin-top:10px; color:var(--muted); font-weight:400; letter-spacing:.08em; text-transform:none; }
-  footer .mark a.city{ transition:color .25s var(--ease); }
-  footer .mark a.city:hover{ color:var(--cream); }
-  footer .mark .addr2{ margin-top:4px; }
-  footer .links{ display:flex; gap:28px; font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; }
-  footer .links a{ color:var(--muted); transition:color .3s var(--ease); }
-  footer .links a:hover{ color:var(--cream); }
+  .foot-seal-row{ display:flex; align-items:center; justify-content:space-between; gap:clamp(16px,4vw,48px);
+    padding-top:clamp(30px,6vh,64px); }
+  .foot-geo{ flex:0 0 auto; position:relative; color:var(--cream);
+    font-size:clamp(.95rem,1.4vw,1.18rem); font-weight:700; letter-spacing:.14em; text-transform:uppercase; }
+  /* circular seal badge */
+  .seal{ position:relative; width:var(--seal,190px); height:var(--seal,190px);
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .foot-seal{ --seal:clamp(156px,21vw,238px); }
+  .seal-ring{ position:absolute; inset:0; width:100%; height:100%; color:var(--cream); }
+  .seal-ring text{ fill:currentColor; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:16px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+  .seal-mark{ position:relative; width:33%; height:auto; }
+  .foot-links{ display:flex; gap:28px; justify-content:center; align-items:center;
+    font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+    padding-top:clamp(22px,3.5vh,34px); padding-bottom:clamp(26px,4.5vh,42px); }
+  .foot-links a{ position:relative; color:var(--muted); transition:color .3s var(--ease); }
+  .foot-links a:hover{ color:var(--cream); }
+  @media (max-width:520px){ .foot-seal{ --seal:128px; } .foot-geo{ font-size:.95rem; } }
   @media (max-width:740px){
     /* Once the longest descriptor would wrap (~720px), flip every row to the
        compact two-line layout together: name + tags on top, desc below. */
@@ -393,7 +400,6 @@
     .co .tags{ order:1; flex:0 0 auto; align-self:center; justify-content:flex-end; }
     .co .desc{ flex:1 1 100%; order:2; font-size:.92rem; }
     .tag{ font-size:.54rem; padding:4px 8px; letter-spacing:.1em; }
-    .footer-inner{ flex-direction:column; align-items:flex-start; }
   }
 
   /* ---------- NV1 pop-out (portfolio) ---------- */
@@ -497,13 +503,12 @@
   .bar-right, .tb-right{ display:flex; align-items:center; gap:clamp(12px,1.5vw,18px); }
 
   /* hover underline (fades in) for inline text links */
-  .bar .cities a, footer .links a, footer .mark a.city{ position:relative; }
-  footer .mark a.city{ width:fit-content; }
-  .bar .cities a::after, footer .links a::after, footer .mark a.city::after{
+  .bar .cities a, .foot-links a, .foot-geo{ position:relative; }
+  .bar .cities a::after, .foot-links a::after, .foot-geo::after{
     content:""; position:absolute; left:0; bottom:-2px; width:100%; height:1px;
     background:currentColor; opacity:0; pointer-events:none;
     transition:opacity .22s var(--ease); }
-  .bar .cities a:hover::after, footer .links a:hover::after, footer .mark a.city:hover::after{ opacity:1; }
+  .bar .cities a:hover::after, .foot-links a:hover::after, .foot-geo:hover::after{ opacity:1; }
   .co-title{ position:relative; }
   .co-title::after{ content:""; position:absolute; left:0; bottom:-2px; width:100%; height:1px;
     background:currentColor; opacity:0; pointer-events:none; transition:opacity .22s var(--ease); }
@@ -711,13 +716,19 @@
       </div>
     </div>
     <footer>
-      <div class="wrap footer-inner">
-        <div class="mark">
-          Night Ventures<sup>&reg;</sup>
-          <a class="city" href="https://www.google.com/maps/search/?api=1&amp;query=76+Wooster+St%2C+New+York%2C+NY" target="_blank" rel="noopener">NY</a>
-          <a class="city addr2" href="https://www.google.com/maps/search/?api=1&amp;query=3402+Pico+Blvd%2C+Santa+Monica%2C+CA" target="_blank" rel="noopener">LA</a>
+      <div class="wrap">
+        <div class="foot-seal-row">
+          <a class="foot-geo" href="https://www.google.com/maps/search/?api=1&amp;query=76+Wooster+St%2C+New+York%2C+NY" target="_blank" rel="noopener">NY</a>
+          <div class="seal foot-seal">
+            <svg class="seal-ring" viewBox="0 0 200 200" aria-hidden="true">
+              <defs><path id="footSealPath" d="M 100 180 A 80 80 0 1 1 100 20 A 80 80 0 1 1 100 180" fill="none"/></defs>
+              <text text-anchor="middle"><textPath href="#footSealPath" startOffset="50%">BUILDING COMPANIES WITH ATTENTION</textPath></text>
+            </svg>
+            <svg class="seal-mark nvmark" viewBox="0 0 186 76" role="img" aria-label="Night Ventures"><use href="#nv-mark"/></svg>
+          </div>
+          <a class="foot-geo" href="https://www.google.com/maps/search/?api=1&amp;query=3402+Pico+Blvd%2C+Santa+Monica%2C+CA" target="_blank" rel="noopener">LA</a>
         </div>
-        <div class="links">
+        <div class="foot-links">
           <a href="#" data-open-nv1>NV1</a>
           <a href="https://www.linkedin.com/company/nightventures" target="_blank" rel="noopener">LinkedIn</a>
         </div>
