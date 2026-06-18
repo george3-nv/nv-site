@@ -257,6 +257,37 @@
   .diagram-svg{ width:100%; max-width:860px; height:auto;
     color:var(--cream); font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
 
+  /* ---------- "How we build" packaging diagram ---------- */
+  .build-svg{ width:100%; max-width:440px; height:auto; display:block; margin:0 auto;
+    color:var(--cream); font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
+  .build-svg .pool-rect{ fill:none; stroke:currentColor; stroke-opacity:.22; stroke-width:1.4; }
+  .build-svg .pool-label{ fill:currentColor; fill-opacity:.6; font-size:15px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; }
+  .build-svg .cand{ fill:currentColor; fill-opacity:.24; }
+  .build-svg .cand.sel{ fill:var(--accent); fill-opacity:1; }
+  .build-svg .pick, .build-svg .out{ stroke:var(--accent); stroke-width:2; fill:none; stroke-linecap:round; }
+  .build-svg .hub-ring{ fill:none; stroke:currentColor; stroke-opacity:.32; stroke-width:1.6; }
+  .build-svg .hub-mark{ fill:currentColor; }
+  .build-svg .company-rect{ fill:none; stroke:var(--accent); stroke-width:2; }
+  .build-svg .company-label{ fill:currentColor; font-size:15px; font-weight:500; letter-spacing:-.01em; }
+  .build-svg .chip{ fill:var(--accent); }
+  .diagram-caption{ margin-top:clamp(16px,2.4vh,24px); max-width:46ch;
+    font-size:clamp(.86rem,1.15vw,1rem); line-height:1.45; color:var(--muted); }
+  /* scroll-in animation (initial state when armed; reveals on .play) */
+  .build-svg.anim .pool{ opacity:0; }
+  .build-svg.anim .cand.sel{ fill:currentColor; fill-opacity:.24; }
+  .build-svg.anim .pick{ stroke-dasharray:var(--len); stroke-dashoffset:var(--len); }
+  .build-svg.anim .out{ stroke-dasharray:206; stroke-dashoffset:206; }
+  .build-svg.anim .company,.build-svg.anim .chip,.build-svg.anim .company-label{ opacity:0; }
+  .build-svg.anim.play .pool{ opacity:1; transition:opacity .5s var(--ease); }
+  .build-svg.anim.play .cand.sel{ fill:var(--accent); fill-opacity:1;
+    transition:fill .45s var(--ease), fill-opacity .45s var(--ease); }
+  .build-svg.anim.play .pick{ stroke-dashoffset:0; transition:stroke-dashoffset .55s var(--ease); }
+  .build-svg.anim.play .out{ stroke-dashoffset:0; transition:stroke-dashoffset .55s var(--ease); }
+  .build-svg.anim.play .company,.build-svg.anim.play .chip,.build-svg.anim.play .company-label{
+    opacity:1; transition:opacity .5s var(--ease); }
+  @media (prefers-reduced-motion:reduce){ .build-svg.anim *{ opacity:1 !important; stroke-dashoffset:0 !important; } }
+
   /* Section 3: companies */
   .co{
     display:flex; align-items:baseline; gap:24px;
@@ -607,49 +638,45 @@
         </div>
 
         <div class="cell diagram-cell head-fade">
-          <div class="label">Our Process</div>
+          <div class="label">How we build</div>
           <div class="diagram">
-            <div class="diagram-frame">
-        <svg class="diagram-svg" viewBox="0 0 1120 470" role="img"
-             aria-label="Hypothesis, Talent, Operator and Financing combine through Night Ventures into New Companies">
-          <defs>
-            <marker id="nvArrow" viewBox="0 0 10 10" refX="9" refY="5"
-                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
-            </marker>
-          </defs>
-
-          <!-- converging lines + arrows (dotted) -->
-          <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.5 9">
-            <g stroke-opacity=".55">
-              <line x1="232" y1="100" x2="470" y2="235"/>
-              <line x1="232" y1="190" x2="470" y2="235"/>
-              <line x1="232" y1="280" x2="470" y2="235"/>
-              <line x1="232" y1="370" x2="470" y2="235"/>
-            </g>
-            <line x1="470" y1="235" x2="531" y2="235" stroke-opacity=".85" marker-end="url(#nvArrow)"/>
-            <line x1="715" y1="235" x2="815" y2="235" stroke-opacity=".85" marker-end="url(#nvArrow)"/>
-          </g>
-
-          <!-- convergence point -->
-          <circle cx="470" cy="235" r="3.5" fill="currentColor" fill-opacity=".85"/>
-
-          <!-- NV mark in a circle -->
-          <circle cx="625" cy="235" r="74" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity=".85"/>
-          <use href="#nv-mark" x="560" y="208" width="130" height="53" fill="currentColor"/>
-
-          <!-- labels -->
-          <g fill="currentColor" font-weight="500">
-            <text x="210" y="100" font-size="30" text-anchor="end" dominant-baseline="middle">Hypothesis</text>
-            <text x="210" y="190" font-size="30" text-anchor="end" dominant-baseline="middle">Distribution</text>
-            <text x="210" y="280" font-size="30" text-anchor="end" dominant-baseline="middle">Operator</text>
-            <text x="210" y="370" font-size="30" text-anchor="end" dominant-baseline="middle">Financing</text>
-            <text x="832" y="221" font-size="32" dominant-baseline="middle">New</text>
-            <text x="832" y="260" font-size="32" dominant-baseline="middle">Companies</text>
-          </g>
-        </svg>
-            </div>
+      <svg class="build-svg" id="buildDiagram" viewBox="0 0 660 600" role="img" aria-label="Night Ventures selects the best operator, idea, distribution and capital and packages them into a company with customers on day one">
+        <line class="out" x1="330" y1="281" x2="330" y2="479" style="transition-delay:1.6s"/>
+        <line class="pick" x1="330" y1="235" x2="177" y2="152" style="--len:174.1;transition-delay:0.55s"/><line class="pick" x1="330" y1="235" x2="491" y2="156" style="--len:179.3;transition-delay:0.8s"/><line class="pick" x1="330" y1="235" x2="175" y2="338" style="--len:186.1;transition-delay:1.05s"/><line class="pick" x1="330" y1="235" x2="485" y2="342" style="--len:188.3;transition-delay:1.3s"/>
+        <g class="pool">
+        <rect class="pool-rect" x="65" y="78" width="150" height="104" rx="14"/>
+        <text class="pool-label" x="140.0" y="62" text-anchor="middle">Operators</text>
+        <circle class="cand" cx="105" cy="112" r="8" />
+        <circle class="cand" cx="175" cy="108" r="8" />
+        <circle class="cand" cx="111" cy="156" r="8" />
+        <circle class="cand sel" cx="177" cy="152" r="8" style="transition-delay:0.55s"/>
+        </g><g class="pool">
+        <rect class="pool-rect" x="445" y="78" width="150" height="104" rx="14"/>
+        <text class="pool-label" x="520.0" y="62" text-anchor="middle">Ideas</text>
+        <polygon class="cand" points="485,102.8 477,118.0 493,118.0" />
+        <polygon class="cand" points="555,98.8 547,114.0 563,114.0" />
+        <polygon class="cand sel" points="491,146.8 483,162.0 499,162.0" style="transition-delay:0.8s"/>
+        <polygon class="cand" points="557,142.8 549,158.0 565,158.0" />
+        </g><g class="pool">
+        <rect class="pool-rect" x="65" y="308" width="150" height="104" rx="14"/>
+        <text class="pool-label" x="140.0" y="440" text-anchor="middle">Distribution</text>
+        <rect class="cand" x="97" y="334" width="16" height="16" rx="2" />
+        <rect class="cand sel" x="167" y="330" width="16" height="16" rx="2" style="transition-delay:1.05s"/>
+        <rect class="cand" x="103" y="378" width="16" height="16" rx="2" />
+        <rect class="cand" x="169" y="374" width="16" height="16" rx="2" />
+        </g><g class="pool">
+        <rect class="pool-rect" x="445" y="308" width="150" height="104" rx="14"/>
+        <text class="pool-label" x="520.0" y="440" text-anchor="middle">Capital</text>
+        <polygon class="cand sel" points="485,332.4 493.4,342 485,351.6 476.6,342" style="transition-delay:1.3s"/>
+        <polygon class="cand" points="555,328.4 563.4,338 555,347.6 546.6,338" />
+        <polygon class="cand" points="491,376.4 499.4,386 491,395.6 482.6,386" />
+        <polygon class="cand" points="557,372.4 565.4,382 557,391.6 548.6,382" />
+        </g>
+        <circle class="hub-ring" cx="330" cy="235" r="46"/><use class="hub-mark" href="#nv-mark" x="298" y="222" width="64" height="26"/>
+        <g><rect class="company company-rect" x="170" y="479" width="320" height="92" rx="16" style="transition-delay:1.7s"/><circle class="chip" cx="270.0" cy="509" r="6.5" style="transition-delay:1.75s"/><polygon class="chip" points="310.0,501.525 303.5,513.875 316.5,513.875" style="transition-delay:1.83s"/><rect class="chip" x="343.5" y="502.5" width="13.0" height="13.0" rx="2" style="transition-delay:1.91s"/><polygon class="chip" points="390.0,501.2 396.825,509 390.0,516.8 383.175,509" style="transition-delay:1.99s"/><text class="company-label" x="330.0" y="545" text-anchor="middle" style="transition-delay:1.95s">A company — customers on day one</text></g>
+      </svg>
           </div>
+          <p class="diagram-caption">We package the essential components of a modern company to build businesses with serious distribution leverage built in.</p>
         </div>
 
       </div>
@@ -1023,6 +1050,18 @@
       update();
       window.addEventListener('load', update);
       setTimeout(update, 200);
+    })();
+
+    /* "How we build" diagram: arm + play the assembly on scroll-into-view */
+    (function(){
+      var svg = document.getElementById('buildDiagram');
+      if(!svg) return;
+      if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      svg.classList.add('anim');
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ svg.classList.add('play'); io.disconnect(); } });
+      }, { threshold: 0.45 });
+      io.observe(svg);
     })();
 
     /* Sticky nav + back-to-top reveal */
