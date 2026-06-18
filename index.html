@@ -258,7 +258,8 @@
     color:var(--cream); font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
 
   /* ---------- "How we build" packaging diagram ---------- */
-  .build-svg{ width:100%; max-width:440px; height:auto; display:block; margin:0 auto;
+  .build-frame{ padding:clamp(14px,2.4vh,26px) clamp(12px,2vw,24px); }
+  .build-svg{ width:100%; max-width:392px; height:auto; display:block; margin:0 auto;
     color:var(--cream); font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }
   .build-svg .pool-rect{ fill:none; stroke:currentColor; stroke-opacity:.22; stroke-width:1.4; }
   .build-svg .pool-label{ fill:currentColor; fill-opacity:.6; font-size:15px; font-weight:700;
@@ -266,13 +267,13 @@
   .build-svg .cand{ fill:currentColor; fill-opacity:.24; }
   .build-svg .cand.sel{ fill:var(--accent); fill-opacity:1; }
   .build-svg .pick, .build-svg .out{ stroke:var(--accent); stroke-width:2; fill:none; stroke-linecap:round; }
-  .build-svg .hub-ring{ fill:none; stroke:currentColor; stroke-opacity:.32; stroke-width:1.6; }
+  .build-svg .hub-ring{ fill:var(--green); stroke:currentColor; stroke-opacity:.32; stroke-width:1.6; }
   .build-svg .hub-mark{ fill:currentColor; }
   .build-svg .company-rect{ fill:none; stroke:var(--accent); stroke-width:2; }
   .build-svg .company-label{ fill:currentColor; font-size:15px; font-weight:500; letter-spacing:-.01em; }
   .build-svg .chip{ fill:var(--accent); }
-  .diagram-caption{ margin-top:clamp(16px,2.4vh,24px); max-width:46ch;
-    font-size:clamp(.86rem,1.15vw,1rem); line-height:1.45; color:var(--muted); }
+  .diagram-caption{ margin:clamp(16px,2.4vh,24px) auto 0; max-width:46ch; text-align:center;
+    font-style:italic; font-size:clamp(.86rem,1.15vw,1rem); line-height:1.45; color:var(--muted); }
   /* scroll-in animation (initial state when armed; reveals on .play) */
   .build-svg.anim .pool{ opacity:0; }
   .build-svg.anim .cand.sel{ fill:currentColor; fill-opacity:.24; }
@@ -640,41 +641,55 @@
         <div class="cell diagram-cell head-fade">
           <div class="label">How we build</div>
           <div class="diagram">
-      <svg class="build-svg" id="buildDiagram" viewBox="0 0 660 600" role="img" aria-label="Night Ventures selects the best operator, idea, distribution and capital and packages them into a company with customers on day one">
+            <div class="diagram-frame build-frame">
+      <svg class="build-svg" id="buildDiagram" viewBox="0 0 660 600" role="img" aria-label="Night Ventures selects the best operator, idea, distribution and capital and packages them into a company with built-in customers">
         <line class="out" x1="330" y1="281" x2="330" y2="479" style="transition-delay:1.6s"/>
-        <line class="pick" x1="330" y1="235" x2="177" y2="152" style="--len:174.1;transition-delay:0.55s"/><line class="pick" x1="330" y1="235" x2="491" y2="156" style="--len:179.3;transition-delay:0.8s"/><line class="pick" x1="330" y1="235" x2="175" y2="338" style="--len:186.1;transition-delay:1.05s"/><line class="pick" x1="330" y1="235" x2="485" y2="342" style="--len:188.3;transition-delay:1.3s"/>
+        <line class="pick" x1="330" y1="235" x2="175" y2="138" style="--len:182.8;transition-delay:0.55s"/><line class="pick" x1="330" y1="235" x2="471" y2="136" style="--len:172.3;transition-delay:0.8s"/><line class="pick" x1="330" y1="235" x2="177" y2="338" style="--len:184.4;transition-delay:1.05s"/><line class="pick" x1="330" y1="235" x2="475" y2="336" style="--len:176.7;transition-delay:1.3s"/>
         <g class="pool">
         <rect class="pool-rect" x="65" y="78" width="150" height="104" rx="14"/>
         <text class="pool-label" x="140.0" y="62" text-anchor="middle">Operators</text>
-        <circle class="cand" cx="105" cy="112" r="8" />
-        <circle class="cand" cx="175" cy="108" r="8" />
-        <circle class="cand" cx="111" cy="156" r="8" />
-        <circle class="cand sel" cx="177" cy="152" r="8" style="transition-delay:0.55s"/>
+        <circle class="cand" cx="95" cy="106" r="7" />
+        <circle class="cand" cx="137" cy="100" r="7" />
+        <circle class="cand" cx="177" cy="108" r="7" />
+        <circle class="cand" cx="91" cy="136" r="7" />
+        <circle class="cand" cx="133" cy="130" r="7" />
+        <circle class="cand sel" cx="175" cy="138" r="7.5" style="transition-delay:0.55s"/>
+        <circle class="cand" cx="135" cy="162" r="7" />
         </g><g class="pool">
         <rect class="pool-rect" x="445" y="78" width="150" height="104" rx="14"/>
         <text class="pool-label" x="520.0" y="62" text-anchor="middle">Ideas</text>
-        <polygon class="cand" points="485,102.8 477,118.0 493,118.0" />
-        <polygon class="cand" points="555,98.8 547,114.0 563,114.0" />
-        <polygon class="cand sel" points="491,146.8 483,162.0 499,162.0" style="transition-delay:0.8s"/>
-        <polygon class="cand" points="557,142.8 549,158.0 565,158.0" />
+        <polygon class="cand" points="475,98.0 468,111.2 482,111.2" />
+        <polygon class="cand" points="517,92.0 510,105.2 524,105.2" />
+        <polygon class="cand" points="557,100.0 550,113.2 564,113.2" />
+        <polygon class="cand sel" points="471,127.4 463.5,141.6 478.5,141.6" style="transition-delay:0.8s"/>
+        <polygon class="cand" points="513,122.0 506,135.2 520,135.2" />
+        <polygon class="cand" points="555,129.9 548,143.2 562,143.2" />
+        <polygon class="cand" points="515,153.9 508,167.2 522,167.2" />
         </g><g class="pool">
         <rect class="pool-rect" x="65" y="308" width="150" height="104" rx="14"/>
         <text class="pool-label" x="140.0" y="440" text-anchor="middle">Distribution</text>
-        <rect class="cand" x="97" y="334" width="16" height="16" rx="2" />
-        <rect class="cand sel" x="167" y="330" width="16" height="16" rx="2" style="transition-delay:1.05s"/>
-        <rect class="cand" x="103" y="378" width="16" height="16" rx="2" />
-        <rect class="cand" x="169" y="374" width="16" height="16" rx="2" />
+        <rect class="cand" x="88" y="329" width="14" height="14" rx="2" />
+        <rect class="cand" x="130" y="323" width="14" height="14" rx="2" />
+        <rect class="cand sel" x="169.5" y="330.5" width="15.0" height="15.0" rx="2" style="transition-delay:1.05s"/>
+        <rect class="cand" x="84" y="359" width="14" height="14" rx="2" />
+        <rect class="cand" x="126" y="353" width="14" height="14" rx="2" />
+        <rect class="cand" x="168" y="361" width="14" height="14" rx="2" />
+        <rect class="cand" x="128" y="385" width="14" height="14" rx="2" />
         </g><g class="pool">
         <rect class="pool-rect" x="445" y="308" width="150" height="104" rx="14"/>
         <text class="pool-label" x="520.0" y="440" text-anchor="middle">Capital</text>
-        <polygon class="cand sel" points="485,332.4 493.4,342 485,351.6 476.6,342" style="transition-delay:1.3s"/>
-        <polygon class="cand" points="555,328.4 563.4,338 555,347.6 546.6,338" />
-        <polygon class="cand" points="491,376.4 499.4,386 491,395.6 482.6,386" />
-        <polygon class="cand" points="557,372.4 565.4,382 557,391.6 548.6,382" />
+        <polygon class="cand sel" points="475,327.0 482.9,336 475,345.0 467.1,336" style="transition-delay:1.3s"/>
+        <polygon class="cand" points="517,321.6 524.4,330 517,338.4 509.6,330" />
+        <polygon class="cand" points="557,329.6 564.4,338 557,346.4 549.6,338" />
+        <polygon class="cand" points="471,357.6 478.4,366 471,374.4 463.6,366" />
+        <polygon class="cand" points="513,351.6 520.4,360 513,368.4 505.6,360" />
+        <polygon class="cand" points="555,359.6 562.4,368 555,376.4 547.6,368" />
+        <polygon class="cand" points="515,383.6 522.4,392 515,400.4 507.6,392" />
         </g>
         <circle class="hub-ring" cx="330" cy="235" r="46"/><use class="hub-mark" href="#nv-mark" x="298" y="222" width="64" height="26"/>
-        <g><rect class="company company-rect" x="170" y="479" width="320" height="92" rx="16" style="transition-delay:1.7s"/><circle class="chip" cx="270.0" cy="509" r="6.5" style="transition-delay:1.75s"/><polygon class="chip" points="310.0,501.525 303.5,513.875 316.5,513.875" style="transition-delay:1.83s"/><rect class="chip" x="343.5" y="502.5" width="13.0" height="13.0" rx="2" style="transition-delay:1.91s"/><polygon class="chip" points="390.0,501.2 396.825,509 390.0,516.8 383.175,509" style="transition-delay:1.99s"/><text class="company-label" x="330.0" y="545" text-anchor="middle" style="transition-delay:1.95s">A company — customers on day one</text></g>
+        <g><rect class="company company-rect" x="170" y="479" width="320" height="92" rx="16" style="transition-delay:1.7s"/><circle class="chip" cx="270.0" cy="509" r="6.5" style="transition-delay:1.75s"/><polygon class="chip" points="310.0,501.5 303.5,513.9 316.5,513.9" style="transition-delay:1.83s"/><rect class="chip" x="343.5" y="502.5" width="13.0" height="13.0" rx="2" style="transition-delay:1.91s"/><polygon class="chip" points="390.0,501.2 396.8,509 390.0,516.8 383.2,509" style="transition-delay:1.99s"/><text class="company-label" x="330.0" y="545" text-anchor="middle" style="transition-delay:1.95s">A company with built-in customers.</text></g>
       </svg>
+            </div>
           </div>
           <p class="diagram-caption">We package the essential components of a modern company to build businesses with serious distribution leverage built in.</p>
         </div>
